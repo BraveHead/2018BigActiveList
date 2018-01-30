@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <!--ios适配meta-->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <title>2018跨年活动</title>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    <style lang="scss">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        html {
+            font-size: 100px;
+        }
+
+        /*fade动画*/
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s ease;
+        }
+
+        .fade-enter, .fade-leave-active {
+            opacity: 0
+        }
+
+        /*左右切换动画*/
+        .child-view {
+            position: absolute;
+            width: 100%;
+            transition: all .5s cubic-bezier(.55, 0, .1, 1);
+        }
+
+        .slide-left-enter, .slide-right-leave-active {
+            opacity: 0;
+            -webkit-transform: translate(100%, 0);
+            transform: translate(100%, 0);
+        }
+
+        .slide-left-leave-active, .slide-right-enter {
+            opacity: 0;
+            -webkit-transform: translate(-100%, 0);
+            transform: translate(-100%, 0);
+        }
+
+        .parent-view {
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var autoSetRem = (function (doc, win) {
+        var docEl = doc.documentElement,
+            done = false,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            set = function (paper) {
+                if (paper == null) {
+                    paper = 750;
+                }
+                var clientWidth = docEl.clientWidth || win.innerWidth || screen.width;
+                if (clientWidth >= 1200) {
+                    clientWidth = 750;
+                }
+                if (clientWidth <= 320) {
+                    clientWidth = 320;
+                }
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / paper) + 'px';
+                done = true;
+                return done;
+            };
+        return {
+            set: set
+        };
+        //AbortifbrowserdoesnotsupportaddEventListener
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, set, false);
+        doc.addEventListener('DOMContentLoaded', set, false);
+    })(document, window);
+    autoSetRem.set(750);
+</script>
+<div id="app"></div>
+<script src="https://test.qtz360.com/h5/plugins/jquery.min.js"></script>
+<script src="https://test.qtz360.com/h5/plugins/commonRequestPrefix.js"></script>
+<script src="https://test.qtz360.com/h5/plugins/wechat.js"></script>
+<script src="https://test.qtz360.com/h5/plugins/wxfxinit.js"></script>
+<script src="./dist/build.js"></script>
+</body>
+</html>
