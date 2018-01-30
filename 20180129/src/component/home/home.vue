@@ -14,7 +14,7 @@
                 <div class="home-red-pic">
                     红包图
                 </div>
-                <router-link :to="{name:'register'}" id="to-get-money">马上抢钱</router-link>
+                <router-link :to="{name:'setPhone'}" id="to-get-money">马上抢钱</router-link>
                 <p>100个红包剩余99个</p>
                 <p style="text-align: right">
                     <router-link to="home" >领取规则</router-link>

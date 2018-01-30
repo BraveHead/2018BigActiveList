@@ -16,6 +16,8 @@
             return {
                 msg: 'Welcome to Your Vue.js App',
                 transitionName: 'fade',
+                // absUrl: 'xchd',
+                absUrl: ''
             }
         },
         watch: {
@@ -23,8 +25,8 @@
                 //    console.log('现在路由:',to.path.split('/')[1],'来自路由:',from.path.split('/')[1],'现在的动画:',this.transitionName)
                 const toDepth = to.path.split('/').length
                 const fromDepth = from.path.split('/').length
-                console.log(to.path, from.path)
-                if ((to.path.indexOf('home') !== -1 || to.path === '/' ) && toDepth === 2) {
+                console.log(toDepth, fromDepth);
+                if (to.path.indexOf('home') !== -1 || to.path === '/' + this.absUrl ) {
                     this.transitionName = 'slide-right';
                 } else {
                     this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
@@ -48,6 +50,7 @@
         color: #2c3e50;
         width: 100%;
         height: 100%;
+        font-size: 0.28rem;
     }
 
     h1, h2 {

@@ -51,7 +51,7 @@
 
 <script>
     export default {
-        name:'register',
+        name:'setPhone',
         data() {
             return {
                 button: false,
@@ -389,13 +389,6 @@
         width: 6.60rem;
         height: 7.15rem;
         margin: 0 auto;
-    }
-    .qtz-promise{
-        display: block;
-        width: 100%;
-        height: 0.76rem;
-        text-align: center;
-        line-height: 0.76rem;
     }
     .input-container{
         width: 100%;

@@ -16,36 +16,37 @@ import home from './component/home/home'
 import redList from './component/red/redList'
 import redItem from './component/red/redItem'
 import register from './component/register/register'
+import setPhone from './component/register/setPhone'
 //创建路由   配置
-// var baseRouter = '/xchd';
-var baseRouter = '';
+var baseRouter = '/xchd';
+// var baseRouter = '';
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        {
-            path: baseRouter+'/home',
-            name: 'home',
-            component: home
-        },
         {
             path: baseRouter + '/',
             name:'index',
             component: home
         },
         {
-            path:baseRouter + '/redList',
+            path:baseRouter + '/red/redList',
             name:'redList',
             component:redList
         },
         {
-            path:baseRouter + '/redList/redItem',
+            path:baseRouter + '/red/redList/redItem',
             name:'redItem',
             component: redItem
         },
         {
-            path: baseRouter + '/user/register',
+            path: baseRouter + '/user/setPhone/register',
             name: 'register',
             component: register
+        },
+        {
+            path: baseRouter + '/user/setPhone',
+            name: 'setPhone',
+            component: setPhone
         }
     ]
 });
