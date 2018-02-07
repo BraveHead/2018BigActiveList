@@ -1,5 +1,5 @@
 function NativeJs() {
-    //跳转微信端前缀
+    //跳转微信端前缀this
     this.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
     // this.url = 'https://www.qtz360.com/h5/home.html#';     //生产环境
     //跳转微信端首页
@@ -53,14 +53,22 @@ NativeJs.prototype.isApp = function () {
     }
     return result;
 };
+/**
+ * 设置Cookie
+ * @param c_name   key
+ * @param value   value
+ */
+NativeJs.prototype.setCookie = function (c_name,value) {
+   document.cookie = c_name + '=' + value;
+};
 
 //获取token   obj.getToken()
 NativeJs.prototype.getToken = function () {
     var token = '';
-
     if (this.isApp()) {
         token = this.getUrl('token', window.location.href.slice(window.location.href.indexOf('token=')));
     } else {
+        // token = '0c62b2fa1841a5aa67b0729539e5118b'
         token = this.getCookie('token');
     }
     return token;
@@ -130,6 +138,7 @@ NativeJs.prototype.androidIosJs = function (obj) {
                 //点击分享,自定义参数
                 case 'activityToShare':
                     window[o.android][o.android](fx.shareUrl, fx.shareTitle, fx.shareDesc, fx.shareIcon);
+                    break;
                 default:
                     window[o.android][o.android]();
                     break;
@@ -165,7 +174,7 @@ NativeJs.prototype.androidIosJs = function (obj) {
                 break;
             //跳转登录
             case 'activityToLogin':
-                window.location.href = this.url + '/user/login?entry=activity&url=' + window.location.href;
+                window.location.href = window.url + '/user/login?entry=activity&url=' + window.location.href;
                 break;
             default:
                 window.location.href = this.url + o.url;

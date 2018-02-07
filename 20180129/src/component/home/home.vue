@@ -1,110 +1,163 @@
 <template>
-    <div>
-        <div class="banner">
-            <h2>banner</h2>
-        </div>
+    <div class="home-container">
         <div id="home">
-            <div class="home-top">
-                <div class="home-time">
-                    红包发放
-                </div>
-                <router-link class="home-lq-list" :to="{name:'redList'}">领取列表</router-link>
+            <img src="../../assets/home-title.png" style="padding-top: 7.50rem;margin-left: auto;margin-right: auto;display: block;width: 5.52rem;"/>
+            <div class="get-money-container">
+                <img src="../../assets/home-get-money.png" class="now-get-money red-default-animation" @click="nowGetMoney"/>
+                <img src="../../assets/home-red-list.png" class="lq-red-list" @click="checkRedsList"/>
             </div>
-            <div class="home-center">
-                <div class="home-red-pic">
-                    红包图
-                </div>
-                <router-link :to="{name:'setPhone'}" id="to-get-money">马上抢钱</router-link>
-                <p>100个红包剩余99个</p>
-                <p style="text-align: right">
-                    <router-link to="home" >领取规则</router-link>
-                </p>
+            <div class="sy-red">
+                <p>100个红包剩余{{this.hasRedNumber}}个</p>
             </div>
+            <div class="home-rules">
+                <div class="check-rules" @click="checkRules">
+                    <span>查看活动规则</span>
+                    <img src="../../assets/home-up.png" class="base-time"/>
+                </div>
+                <div class="rules-content">
+                    <p>活动规则：</p>
+                    <p>1.活动期间每天12:00限量发放现金红包，每个用户每天限抢一次。</p>
+                    <p>2.现金红包随机抽取，抽取红包完成相应任务现金自动发放到平台账户，可提现。</p>
+                    <p>2.现金红包随机抽取，抽取红包完成相应任务现金自动发放到平台账户，可提现。</p>
+                </div>
+            </div>
+            <footer class="footer">
+                投资有风险，理财需谨慎
+            </footer>
         </div>
-        <footer class="footer">
-            投资有风险，理财需谨慎
-        </footer>
     </div>
 </template>
 
 <style scoped type="text/css" lang="scss" rel="stylesheet/scss">
-   #home{
-       display: flex;
-       width: 100%;
-       height: 6rem;
-       font-size: 0.30rem;
-       flex-direction: column;
-   }
-   .banner {
-       display: flex;
-       width: 100%;
-       height: 4.00rem;
-       background-color: red;
-       justify-content: center;
-       flex-direction: column;
-   }
-
-   .banner h2 {
-       font-size: 0.50rem;
-   }
-
-   .footer {
-       display: flex;
-       height: 1.00rem;
-       font-size: 0.28rem;
-       justify-content: center;
-       flex-direction: column;
-   }
-
-   .home-top{
-        position: relative;
-        height: 1.00rem;
+    .base-time{
+        transition: all 0.5s ease-in-out;
     }
-        .home-time{
+    .rotateAnimation{
+        transform: rotateX(180deg);
+    }
+    .home-container {
+        width: 100%;
+        height: auto;
+        background: url("../../assets/home-bg.png") no-repeat top;
+        background-size: 7.5rem 16.84rem;
+    }
+    .red-default-animation{
+        animation: scaleAnimate 2.0s ease-in-out 0.5s infinite;
+    }
+    @keyframes scaleAnimate {
+        0%{
+            transform: scale3d(1.0,1.0,1.0);
+            opacity: 1;
+        }
+        50%{
+            transform: scale3d(1.10,1.10,1.10);
+            opacity: 0.85;
+        }
+        100%{
+            transform: scale3d(1.0,1.0,1.0);
+            opacity: 1;
+        }
+    }
+    .animationButton {
+        animation: flipOutY 1s .2s ease both
+    }
+
+    @keyframes flipOutY {
+        0% {
+            -webkit-transform: scale3d(1, 1, 1) rotateY(0);
+            transform: scale3d(1, 1, 1) rotateY(0);
+            opacity: 1
+        }
+        10% {
+            -webkit-transform: scale3d(1.2, 1.2, 1.2) rotateY(0);
+            transform: scale3d(1.2, 1.2, 1.2) rotateY(0);
+            opacity: 1
+        }
+        80% {
+            -webkit-transform: scale3d(1.2, 1.2, 1.2) rotateY(360deg);
+            transform: scale3d(1.2, 1.2, 1.2) rotateY(360deg);
+            opacity: 1
+        }
+        100% {
+            -webkit-transform: scale3d(1, 1, 1) rotateY(360deg);
+            transform: scale3d(1, 1, 1) rotateY(360deg);
+            opacity: 1
+        }
+    }
+    .get-money-container{
+        width: 100%;
+        height: 2.00rem;
+        margin-top: 0.30rem;
+        position:relative;
+        .now-get-money{
+            width: 1.80rem;
             position: absolute;
-            width: 2.00rem;
-            height: 0.8rem;
             left: 50%;
             top: 50%;
-            margin-left: -1.00rem;
-            margin-top: -0.40rem;
-            background-color: antiquewhite;
-            text-align: center;
-            line-height: 0.80rem;
+            margin-left: -1.025rem;
+            margin-top: -0.75rem;
         }
-        .home-lq-list{
+        .lq-red-list{
             position: absolute;
-            top: 0.70rem;
-            right: 0.50rem;
+            width: 1.49rem;
+            right:0.05rem;
+            bottom: 0.24rem;
+            img{
+                width: 1.49rem;
+            }
         }
-    .home-center{
-        width: 80%;
-        height: 4.00rem;
-        margin: 0.40rem auto;
-        border: 0.01rem solid red;
-        position: relative;
     }
-        .home-red-pic{
-            width: 2.60rem;
-            height: 2.00rem;
-            margin-top: 0.50rem;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: red;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+    .sy-red{
+        border: 0.02rem solid rgb(255,223,122);
+        width: 3.56rem;
+        height: 0.66;
+        font-size: 0.30rem;
+        text-align: center;
+        line-height: 0.70rem;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 0.20rem;
+        color: rgb(255,223,122);
+        margin-top: 0.61rem;
+    }
+    .home-rules{
+        height: auto;
+        width: 100%;
+        .check-rules{
+            font-size: 0.30rem;
+            color: rgb(255,223,122);
+            text-align:center;
+            margin-top: 0.73rem;
+            span{
+                vertical-align: middle;
+            }
+            img{
+                vertical-align: middle;
+                width: 0.29rem;
+            }
         }
-        #to-get-money{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 2.00rem;
-            margin-left: auto;
-            margin-right: auto;
-            padding-top: 0.40rem;
-        }
-
+    }
+    .rules-content{
+        color: rgb(255,223,122);
+        font-size: 0.24rem;
+        text-align: left;
+        line-height: 0.34rem;
+        width: 6.74rem;
+        margin-left: auto;
+        margin-right: auto;
+        display: none;
+    }
+    .footer {
+        display: flex;
+        height: 0.28rem;
+        font-size: 0.24rem;
+        line-height: 0.28rem;
+        justify-content: center;
+        flex-direction: column;
+        margin-top: 0.58rem;
+        padding-bottom: 0.30rem;
+        color: rgb(103,0,0);
+    }
 </style>
 
 
@@ -115,7 +168,65 @@
             return {
                 msg: '我是首页！',
                 transitionName: 'fade',
+                isHideRules: true,
+                hasRedNumber: 100,
             }
+        },
+        methods:{
+            //点击查看活动规则
+            checkRules(){
+                $('.check-rules img').toggleClass('rotateAnimation');
+                $('.rules-content').slideToggle();
+            },
+            //马上领取红包
+            nowGetMoney(){
+                NativeJs.prototype.setCookie('token','2f798870544d59a632a35eba374de969');
+                if(NativeJs.prototype.isLogin()){
+                    $('.now-get-money').removeClass('red-default-animation').addClass('animationButton');
+                    this.$router.push({path: '/red/redList/redItem'});
+                    // window.location.href = '/red/redList/redItem';
+                }else{
+                    NativeJs.prototype.androidIosJs({
+                        android: 'androidToLogin',
+                        ios: 'activityToLogin',
+                        url: 'activityToLogin'
+                    })
+                }
+            },
+            //点击查看领取列表
+            checkRedsList(){
+                NativeJs.prototype.setCookie('token','2f798870544d59a632a35eba374de969');
+                if(NativeJs.prototype.isLogin()){
+                    this.$router.push({path: '/red/redList'});
+                    // window.location.href = '/red/redList';
+                }else{
+                    NativeJs.prototype.androidIosJs({
+                        url: 'activityToLogin'
+                    })
+                }
+            },
+            //加载剩余红包
+            loadRedNumber(){
+                $.ajax({
+                    url: window.commonRequestPrefix + 'hongbao_num',
+                    dataType: 'json',
+                    method:'GET',
+                    data:{
+
+                    }
+                }).done((res)=>{
+                   if(res.rcd === '0000'){
+                        this.hasRedNumber = res.data.hongbaoNum;
+                   }else{
+                       alert(res.rmg);
+                   }
+                })
+            }
+        },
+        mounted(){
+            this.$nextTick(function () {
+                this.loadRedNumber();
+            });
         }
     }
 </script>

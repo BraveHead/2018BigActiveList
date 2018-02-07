@@ -1,6 +1,13 @@
 <template>
-    <div>
-        <div style="font-size: 0.40rem;" @click="backFun">返回上一页</div>
+    <div id="redList">
+        <div class="red-item-number" style="margin-top: 4.55rem;position: relative;">
+            <span>{{this.award}}</span>
+        </div>
+        <div style="margin-top: 0.389rem;position: relative;">
+            <div class="redList-title-one">
+                <p>{{this.award}}元现金已发放至晴天助账户，实名注册后可提现 并帮助好友{{this.toStringPhone(this.friendPhone)}}完成拆红包任务。</p>
+            </div>
+        </div>
         <div class="traffic_from">
             <div class="register-form">
                 <div class="register-center">
@@ -46,7 +53,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -79,16 +85,13 @@
                 phoneDisplay: 'none',
                 checkDisplay: 'none',
                 // sn: 8932543,  //ETC渠道码
-                sn:6431961,  //测试渠道码
+                sn:'',  //测试渠道码
                 channelId: '',  //渠道id
                 channelCookie: '',  //渠道cookie
-                timeStamp : ''
+                timeStamp : '',
+                award:'',     //获取红包
+                friendPhone:''   //好友手机号
             }
-        },
-        mounted: function () {
-            // this.$nextTick(function () {
-            //     this.submitClick();
-            // })
         },
         created: function () {
             this.loadPicCode();
@@ -98,6 +101,17 @@
             //返回上一页
             backFun(){
                 this.$store.commit('backFun')
+            },
+            //手机号格式化
+            toStringPhone(val){
+                let phoneHeader = val.substr(0,3);
+                let phoneFooter = val.slice(7);
+                return phoneHeader + '****' + phoneFooter;
+            },
+            //初始化加载红包和好友信息
+            loadStartMessage(){
+                this.award = NativeJs.prototype.getUrl('redNumber',window.location.href.slice(window.location.href.indexOf('redNumber=')));
+                this.friendPhone = NativeJs.prototype.getUrl('invitePhone',window.location.href.slice(window.location.href.indexOf('invitePhone=')));
             },
             //图形验证码点击切换
             changePicCodeFun() {
@@ -110,7 +124,7 @@
                 if((filter.test(text))) {
                     this.phoneNumShow = false;
                 }
-                return (/^1[34578]\d{9}$/.test(text));
+                return (filter.test(text));
             },
             //8-20位数字和字母的密码格式验证
             checkPassword: (text)=> {
@@ -161,33 +175,25 @@
             },
             //注册按钮点击事件
             submitClick () {
-                //输入手机号码
-                if (!this.checkPhone(this.phoneNumber) || this.phoneNumber !== '') {
+                if(!this.checkPhone(this.phoneNumber) || this.phoneNumber === '') {//输入手机号码
                     this.phoneNumShow = true;
                     setTimeout(() => {
                         this.phoneNumShow = false;
                     }, 1000)
-                }
-                //输入密码
-                if (!this.checkPassword(this.passwordText) || this.passwordText !== ''){
+                }else if(!this.checkPassword(this.passwordText) || this.passwordText === ''){//输入密码
                     this.passwordShow = true;
                     setTimeout(() => {
                         this.passwordShow = false;
                     }, 1200)
-                }
-                //输入验证码
-                if (!this.checkWord(this.checkNumberText) || this.checkNumberText !== ''){
+                }else if(!this.checkWord(this.checkNumberText) || this.checkNumberText === ''){//输入验证码
                     this.checkShow = true;
                     setTimeout(() => {
                         this.checkShow = false;
                     }, 1400)
-                }
-                //输入校验全部正确,点击提交
-                if(this.checkPhone(this.phoneNumber) && this.checkPassword(this.passwordText) && this.checkWord(this.checkNumberText)){
-                    this.getChannelMessage();
-                }
-                //没有输入点击
-                if(this.phoneNumber === '' && this.passwordText === '' && this.checkNumberText === ''){
+                }else if(this.checkPhone(this.phoneNumber) && this.checkPassword(this.passwordText) && this.checkWord(this.checkNumberText)){//输入校验全部正确,点击提交
+                    // this.getChannelMessage();
+                    this.register();   //注册
+                }else if(this.phoneNumber === '' && this.passwordText === '' && this.checkNumberText === ''){//没有输入点击
                     this.checkShow = true;
                     this.phoneNumShow = true;
                     this.passwordShow = true;
@@ -200,13 +206,15 @@
                             }, 200)
                         },200)
                     },1000)
+                }else{
+                    //
                 }
             },
             //验证手机号是否注册
             isPhoneExistence() {
                 if(this.checkPhone(this.phoneNumber) && !this.Duable){
                     let _this = this;
-                    this.$http.get(this.baseUrl+'isPhoneUsed',{phoneReg:this.phoneNumber})
+                    this.$http.post(this.baseUrl+'isPhoneUsed',{phoneReg:this.phoneNumber}, {emulateJSON:true})
                         .then(function (res) {
                             if(res.data.rcd === 'A0001' || res.data.rcd === 'M0008_23'){
                                 _this.phoneTitle = '手机号已注册！';
@@ -235,12 +243,12 @@
                 let _this = this;
                 // console.log(this.isClick+ '获取验证码之前判断');
                 if(!_this.isClick){   //防止多次点击
-                    _this.$http.get(_this.baseUrl + 'sendPCode',{
+                    _this.$http.post(_this.baseUrl + 'sendPCode',{
                         phoneReg : _this.phoneNumber,
                         imgKey: _this.timestamp,
                         imgCode: _this.picCodeText,
                         source: 'pc'
-                    })
+                    }, {emulateJSON:true})
                         .then(function (res) {
                             if(res.data.rcd === 'R0001' || res.data.rcd === 'M0008_23'){
                                 _this.checkWordChange();
@@ -255,9 +263,9 @@
                         })
                 }
             },
-            //获取渠道分享人的信息
+           /* //获取渠道分享人的信息
             getChannelMessage() {
-                this.$http.get(this.baseUrl + 'channel/'+ this.sn)
+                this.$http.post(this.baseUrl + 'channel/'+ this.sn,{},{emulateJSON:true})
                     .then(function (res) {
                         if(res.data.rcd === 'R0001'){
                             this.channelId = res.data.id;
@@ -268,24 +276,25 @@
                         }
                     }).catch(function (res) {
                 })
-            },
+            },*/
             //注册
             register() {
                 this.$http.post(this.baseUrl + 'reg', {
                     'user.phone': this.phoneNumber,
                     'user.password': this.passwordText,
                     codeReg: this.checkNumberText,
-                    inviteuserid: this.channelId,
-                    cr: this.channelCookie,
-                    invitePhone: 'null',
+                    inviteuserid: '',
+                    cr: '',
+                    invitePhone: this.friendPhone,   //好友邀请手机号
                     sourceFrom: 2,
                     im:'mobile',
                     deviceName:'触屏版',
                     deviceType:4,
-                }).then(function (res) {
+                    award: this.award,    //添加注册红包字段
+                },{emulateJSON:true}).then(function (res) {
                     switch (res.data.rcd){
                         case 'R0001':
-                            window.location.href = "https://www.qtz360.com/ch/918/getRed.html";
+                            // window.location.href = "https://www.qtz360.com/ch/918/getRed.html";
                             break;
                         case 'M0008_2':
                             this.phoneDisplay = 'block';
@@ -313,6 +322,11 @@
             login () {
 
             }
+        },
+        mounted(){
+            this.$nextTick(function () {
+                this.loadStartMessage();
+            });
         }
     };
   /*  Vue.nextTick(function () {
@@ -330,6 +344,13 @@
         font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
         font-size: 0.24rem;
     }
+    #redList{
+        width: 100%;
+        height: auto;
+        background: url("../../assets/redList-bg.png") no-repeat center;
+        background-size: 100% 100%;
+        padding-bottom: 0.70rem;
+    }
     a{text-decoration: none;-webkit-tap-highlight-color:rgba(0,0,0,0);}
 
     input{outline: none;-webkit-appearance: none;-webkit-appearance:none;-webkit-tap-highlight-color:rgba(255,255,255,0);font-size: 0.24rem;}
@@ -345,6 +366,47 @@
         border-radius: 0.06rem;
         background-color: #cfcfcf;
         height: 0.40rem;
+    }
+    .redList-title-one{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background: url("../../assets/redList-title-bg.png") no-repeat center;
+        background-size: 100% 100%;
+        width: 6.29rem;
+        height: 1.04rem;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 0.24rem;
+        color: rgb(255,255,255);
+        p{
+            max-width: 5.20rem;
+        }
+    }
+    .qtz-promise{
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+    }
+    .red-item-number{
+        background: url("../../assets/redList-red-number.png") no-repeat center;
+        background-size: 100% 100%;
+        width: 2.89rem;
+        height: 1.38rem;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        span{
+            position: absolute;
+            font-size: 0.62rem;
+            font-weight: bold;
+            color: rgb(255,250,84);
+            text-align: center;
+            width: 1.00rem;
+            height: 0.62rem;
+            top: 0.20rem;
+            right: 0.47rem;
+        }
     }
     .input-same{
         display: block;
@@ -378,12 +440,11 @@
     }
     .traffic_from{
         width: 100%;
-        position: flex;
+        position: relative;
         /*top: 9.50rem;*/
         height: auto;
-        padding-top: 0.50rem;
+        padding-top: 0.27rem;
         padding-bottom: 0.10rem;
-        background-color: #ffcb5b;
     }
     .register-center{
         width: 6.60rem;
@@ -441,6 +502,9 @@
         height: 0.72rem;
         text-align: left;
         line-height: 0.72rem;
+        a{
+            color: #ffc000;
+        }
     }
     .now-register{
         display: block;
@@ -464,6 +528,9 @@
         height: 0.56rem;
         text-align: center;
         line-height: 0.56rem;
+        a{
+            color: #ffc000;
+        }
     }
    /* !*弹框*!
     .red-bg-container{

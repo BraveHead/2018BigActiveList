@@ -8,7 +8,6 @@
 
 <script>
     import store from './vuex/main'
-
     export default {
         name: 'app',
         store,
@@ -37,6 +36,14 @@
             activated: function () {
                 this.$getGoIndex()
             },
+        },
+        mounted(){
+            this.$nextTick(function () {
+                NativeJs();
+            });
+            if(window.location.href){
+
+            }
         }
     }
 </script>

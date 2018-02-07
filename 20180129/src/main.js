@@ -17,11 +17,13 @@ import redList from './component/red/redList'
 import redItem from './component/red/redItem'
 import register from './component/register/register'
 import setPhone from './component/register/setPhone'
+import redOverTime from './component/red/redOverTime'
 //创建路由   配置
-var baseRouter = '/xchd';
-// var baseRouter = '';
+// var baseRouter = '/xchd/#';
+var baseRouter = '';
+// var baseRouter = '/h5/activity/xchd/#';
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         {
             path: baseRouter + '/',
@@ -32,6 +34,11 @@ const router = new VueRouter({
             path:baseRouter + '/red/redList',
             name:'redList',
             component:redList
+        },
+        {
+            path:baseRouter + '/red/redOverTime',
+            name:'redOverTime',
+            component:redOverTime
         },
         {
             path:baseRouter + '/red/redList/redItem',
