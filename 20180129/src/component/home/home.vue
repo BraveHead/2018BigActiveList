@@ -18,7 +18,7 @@
                     <p>活动规则：</p>
                     <p>1.活动期间每天12:00限量发放现金红包，每个用户每天限抢一次。</p>
                     <p>2.现金红包随机抽取，抽取红包完成相应任务现金自动发放到平台账户，可提现。</p>
-                    <p>2.现金红包随机抽取，抽取红包完成相应任务现金自动发放到平台账户，可提现。</p>
+                    <p>3.未完成红包领取任务，下一个时间点红包自动清零，您可进行下一轮抢红包。</p>
                 </div>
             </div>
             <footer class="footer">
@@ -180,11 +180,16 @@
             },
             //马上领取红包
             nowGetMoney(){
-                NativeJs.prototype.setCookie('token','2f798870544d59a632a35eba374de969');
                 if(NativeJs.prototype.isLogin()){
                     $('.now-get-money').removeClass('red-default-animation').addClass('animationButton');
-                    this.$router.push({path: '/red/redList/redItem'});
-                    // window.location.href = '/red/redList/redItem';
+                    //判断APP和H5
+                    if(window.location.href.indexOf('isAPP') === -1){
+                        this.$router.push({path: '/red/redList/redItem'});
+                    }else{
+                        this.$router.push({path: '/red/redList/redItem',query:{
+                                token:NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token='))),
+                                isAPP:1}});
+                    }
                 }else{
                     NativeJs.prototype.androidIosJs({
                         android: 'androidToLogin',
@@ -195,10 +200,14 @@
             },
             //点击查看领取列表
             checkRedsList(){
-                NativeJs.prototype.setCookie('token','2f798870544d59a632a35eba374de969');
                 if(NativeJs.prototype.isLogin()){
-                    this.$router.push({path: '/red/redList'});
-                    // window.location.href = '/red/redList';
+                    if(window.location.href.indexOf('isAPP') === -1){
+                        this.$router.push({path: '/red/redList'});
+                    }else{
+                        this.$router.push({path: '/red/redList',query:{
+                                token:NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token='))),
+                                isAPP:1}});
+                    }
                 }else{
                     NativeJs.prototype.androidIosJs({
                         url: 'activityToLogin'

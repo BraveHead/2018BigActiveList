@@ -2,15 +2,13 @@
     <div id="redList">
         <div style="padding-top: 4.72rem;">
             <div class="redList-title-one">
-                <p>您的新年现金红包需要邀{{this.hasFriends}}位好友实名注册才可领取</p>
+                <p>您的新年现金红包需要邀{{this.hasFriends}}位好友实名注册才可领取<br/>明日12：00点前未完成任务，红包失效</p>
             </div>
         </div>
         <div class="red-item-number">
-            <span>{{this.carshMoney}}</span>
+            <span style="font-size: 0.50rem;">{{this.carshMoney}}</span>
         </div>
-
         <img src="../../assets/redLIst-friend.png" class="friend-support" @click="toShareUrl"/>
-
         <div class="redList-friends-container">
             <div style="height: 0.47rem;"></div>
             <img src="../../assets/redList-jingdu.png" class="redList-jingdu"/>
@@ -24,34 +22,19 @@
                     <span>状态</span>
                 </div>
                 <ul>
-                    <li>
-                        <span>153****2345</span>
-                        <span class="shiming-type">已实名</span>
-                    </li>
-                    <li>
-                        <span>153****2345</span>
-                        <span class="weishiming-type">未实名</span>
-                    </li>
-                    <li>
-                        <span>153****2345</span>
-                        <span class="shiming-type">未实名</span>
-                    </li>
-                    <li>
-                        <span>153****2345</span>
-                        <span class="weishiming-type">未实名</span>
+                    <li v-for="item in this.redListData">
+                        <span>{{item.phone}}</span>
+                        <span class="shiming-type" v-if="item.status === 1">已实名</span>
+                        <span class="weishiming-type" v-else="item.status === 1">未实名</span>
                     </li>
                 </ul>
             </div>
-            <navigation :pages="pages" :current.sync="pageNo" @navpage="msgListView"></navigation>
-            <p>当前是第<span v-text="pageNo"></span>页</p>
+            <navigation :pages="pages" :current.sync="pageNo" @navpage="this.msgListView" style="position: absolute; left: 50%;width: 6.00rem;margin-left: -3.00rem;bottom: 0.60rem;"></navigation>
         </div>
-        <!-- <span @click="backFun">返回上一页</span>
-         <ul>
-             <li v-for="item in redListData">
-                 <span>{{item.title}}</span>
-                 <router-link :to="{name:'redItem'}" class="to-get-detail">差一人助力</router-link>
-             </li>
-         </ul>-->
+        <div class="bg-alert">
+            <img src="../../assets/fx.png" class="top"/>
+            <img src="../../assets/gb.png" class="bot"/>
+        </div>
     </div>
 </template>
 
@@ -61,9 +44,7 @@
         name: "redList",
         data() {
             return {
-                redListData: [
-
-                ],
+                redListData: [],
                 hasFriends: '',  //还需要多少个好友
                 todayRealNamePeople:'',
                 todayAllPeople:'',
@@ -81,7 +62,7 @@
                     dataType:'json',
                     method:'POST',
                     data: {
-                        token: NativeJs.prototype.getCookie('token')
+                        token: NativeJs.prototype.getToken(),
                     }
                 }).done((res)=>{
                     this.renderFriendsList();
@@ -96,7 +77,7 @@
                     dataType: 'json',
                     methods:"POST",
                     data:{
-                        token: NativeJs.prototype.getCookie('token'),
+                        token: NativeJs.prototype.getToken(),
                     }
                 }).done((res)=>{
                     this.hasFriends = res.data[0].activeNum;
@@ -111,35 +92,43 @@
                     dataType:'json',
                     methods:'JOSN',
                     data:{
-                        'token': NativeJs.prototype.getCookie('token')
+                        'token': NativeJs.prototype.getToken(),
                     }
                 }).done((res)=>{
                     if(res.rcd === '0000'){
+                        //APP端点击分享直接调用各自的方法，禁止app内内置浏览器的分享
+                        if(window.location.href.indexOf('isAPP') === -1){
+                            $('.bg-alert').fadeIn();
+                            $('.bot').on('click', function (e) {
+                                $('.bg-alert').fadeOut();
+                            });
+                        }else{
+                           //
+                        }
+                        let self = this;
                         NativeJs.prototype.androidIosJs({
                             android: 'activityToShare',
                             ios: 'activityToShare',
                             url: 'activityToShare',
                             fx: {
-                                shareUrl: 'localhost:8080/user/setPhone?tgNo=' +
-                                res.data.thNo +'&timeStamp=' + res.data.timeStamp +
-                                '&invitePhone=' + res.data.invitePhone +
-                                    '&token=' + NativeJs.prototype.getToken(),
-                                shareTitle: '测试拆红包分享',
-                                shareDesc: '分享描述123123',
+                                shareUrl: 'https://test.qtz360.com/h5/activity/xchd/index.html#/user/setPhone?tgNo=' +
+                                res.data.tgNo +'&timeStamp=' + res.data.timeStamp + '&invitePhone=' +res.data.invitePhone,
+                                shareTitle: '新春大放送，准点抢现金',
+                                shareDesc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元现金红包，快来帮我拆开吧！",
                                 shareIcon: '分享icon，绝对地址'
                             },
                             wxfx: function(){
                                 wxfx({
-                                    title: '分享标题13',
-                                    desc: '分享描述123123',
-                                    link: 'localhost:8080',
+                                    title: '新春大放送，准点抢现金',
+                                    desc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元现金红包，快来帮我拆开吧！",
+                                    link: 'https://test.qtz360.com/h5/activity/xchd/index.html#/user/setPhone?tgNo=' +
+                                    res.data.tgNo +'&timeStamp=' + res.data.timeStamp + '&invitePhone=' +res.data.invitePhone,
                                     imgUrl: '分享icon，绝对地址',
                                     cancel: function(){},       //取消分享回调方法  可省略
                                     success: function(){}       //完成分享回调方法  可省略
                                 });
                             }
                         });
-                        window.open('http://localhost:8080/user/setPhone?tgNo='+ res.data.tgNo +'&timeStamp=' + res.data.timeStamp+'&invitePhone=' + res.data.invitePhone + '&token=' + NativeJs.prototype.getToken())
                     }else{
                         alert(res.rmg);
                     }
@@ -157,7 +146,7 @@
                     dataType: 'json',
                     methods:"POST",
                     data:{
-                        token: NativeJs.prototype.getCookie('token'),
+                        token: NativeJs.prototype.getToken(),
                         pageSize: this.pageSize,
                         pageNumber: this.pageNo,
                     }
@@ -166,6 +155,7 @@
                         this.todayAllPeople = res.data.totalUserNum;
                         this.todayRealNamePeople = res.data.realNum;
                         this.redListData = res.data.userList;
+                        this.pages = res.data.totalPage;   //页数
                     }else{
                         alert(res.rmg)
                     }
@@ -176,6 +166,22 @@
             this.$nextTick(function () {
                 this.loadUserRed();
                 this.getFriendsLIst();
+                //隐藏APP右上角本地分享按钮
+                //android部分机型方法可执行，但是报错，故用try catch
+                try {
+                    NativeJs.prototype.androidIosJs({
+                        android: 'androidToGetUrl',
+                        ios: 'activityShareUrl',
+                        url: 'activityShareUrl',
+                        fx: {
+                            url: 分享地址
+                        },
+                        toggle: 0
+                    });
+                } catch (e) {
+
+                }
+
             });
         },
         components: {
@@ -192,6 +198,33 @@
         background-size: 100% 100%;
         padding-bottom: 0.70rem;
     }
+    .no-friends{
+        padding-top: 0.50rem;
+        padding-bottom: 0.50rem;
+        border-top: 0.01rem solid #7f120b;
+        color:#7f120b;
+    }
+    .bg-alert{
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.8);
+        top: 0;
+        left: 0;
+        display: none;
+        .top{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .bot{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 50%;
+        }
+    }
     .redList-title-one {
         background: url("../../assets/redList-title-bg.png") no-repeat center;
         background-size: 100% 100%;
@@ -200,11 +233,15 @@
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        line-height: 1.04rem;
         font-size: 0.24rem;
         color: rgb(255, 255, 255);
         display: revert;
         top: 4.72rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
     .red-item-number {
         background: url("../../assets/redList-red-number.png") no-repeat center;
@@ -218,13 +255,13 @@
 
     span {
         position: absolute;
-        font-size: 0.62rem;
+        font-size: 0.50rem;
         font-weight: bold;
         color: rgb(255, 250, 84);
         text-align: center;
         width: 1.00rem;
-        height: 0.62rem;
-        top: 0.20rem;
+        height: 0.50rem;
+        top: 0.26rem;
         right: 0.47rem;
     }
 
@@ -246,6 +283,7 @@
         margin-left: auto;
         margin-right: auto;
         font-size: 0.24rem;
+        position: relative;
     }
 
     .redList-jingdu {
@@ -290,7 +328,7 @@
             }  }
     }
     ul {
-        display: inline-block;
+        display: block;
         height: auto;
         text-align: center;
         color: #7f120b;

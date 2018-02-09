@@ -14,11 +14,11 @@ function NativeJs() {
 //左上角页面关闭按钮 obj.topLeftBack(),一次显示，再一次隐藏
 NativeJs.prototype.topLeftBack = function () {
     if (document.getElementById('topLeftBack')) {
-        this.body.removeChild(document.getElementById('topLeftBack'));
+        window.body.removeChild(document.getElementById('topLeftBack'));
     } else if (!this.isApp()) {
         var dom = '<a id="topLeftBack" href="' + this.indexUrl + '"><img src="' + this.guanbi + '" alt="" style="width: 44px;position:' +
             ' absolute;top:0;left:0;background-color: rgba(255, 255, 255, .5)"></a>';
-        this.body.insertAdjacentHTML('afterBegin', dom);
+        document.body.insertAdjacentHTML('afterBegin', dom);
     }
 };
 

@@ -19,9 +19,9 @@ import register from './component/register/register'
 import setPhone from './component/register/setPhone'
 import redOverTime from './component/red/redOverTime'
 //创建路由   配置
-// var baseRouter = '/xchd/#';
+// var baseRouter = '/xchd1';
 var baseRouter = '';
-// var baseRouter = '/h5/activity/xchd/#';
+// var baseRouter = '/h5/activity/xchd';
 const router = new VueRouter({
     mode: 'hash',
     routes: [

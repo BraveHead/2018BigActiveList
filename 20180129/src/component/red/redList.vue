@@ -4,13 +4,13 @@
             <li v-for="item in redListData">
                 <div class="red-li-top">
                     <span>{{item.awardMoney}}元现金</span>
-                    <router-link class="is-youxiao" v-if="(item.status === 2)" :to="{name:'redItem'}">差{{item.activeNum}}人助力</router-link>
+                    <a class="is-youxiao" v-if="(item.status === 2)" @click="toRedItem">差{{item.activeNum}}人助力</a>
                     <a class="is-wuxiao" v-else-if="(item.status === 1)">奖励已派发</a>
-                    <a class="is-wuxiao" v-else>奖励已派发</a>
+                    <a class="is-wuxiao" v-else>奖励已过期</a>
                 </div>
                 <div class="red-li-bottom">
                     <span>领取时间：{{timeDataFilter(new Date(item.createDate))}}</span>
-                    <time v-show="item.status === 2">剩余时间：{{timeDateFilterTwo(new Date(daoJiTime))}}</time>
+                    <time v-show="item.status === 2">剩余时间：{{daoJiGeShi}}</time>
                 </div>
             </li>
         </ul>
@@ -34,6 +34,7 @@
                 daoJiTimeHours:'',  //倒计时时间戳小时
                 daoJiTimeMinutes:'',  //倒计时时间戳小时
                 daoJiTimeSeconds:'',  //倒计时时间戳小时
+                daoJiGeShi:'',    //倒计时格式化
             }
         },
         methods: {
@@ -45,15 +46,24 @@
                     url: window.commonRequestPrefix + 'rob_money_list',
                     dataType: 'json',
                     methods:"POST",
+                    async:true,
                     data:{
-                        token: NativeJs.prototype.getCookie('token')
+                        token: NativeJs.prototype.getToken(),
                     }
                 }).done((res)=>{
-                    this.redListData = res.data;
-                    this.daoJiTime = Number(res.data[0].modifyDate);
-                    // this.jiangeTime();
-                    this.toSharePage();
-                    // $('.red-list-ul').empty();
+                    let self = this;
+                    self.redListData = res.data;
+                    self.daoJiTime = Number(res.data[0].countdownTime);
+                    self.daoJiTimeHours = Math.floor(self.daoJiTime/(60*60*1000));   //小时
+                    self.daoJiTimeMinutes = Math.floor((Number(self.daoJiTime) - Number(self.daoJiTimeHours*60*60*1000))/(60*1000)); // 分钟
+                    self.daoJiTimeSeconds =Math.floor((Number(self.daoJiTime)- Number(self.daoJiTimeHours*60*60*1000)- Number(self.daoJiTimeMinutes*60*1000))/1000);   //秒
+                    self.toSharePage();   //
+                    // self.daoJiGeShi =  (hours>=10?hours:'0'+hours)+':'+(minutes>=10?minutes:'0'+minutes)+':'+(seconds>=10?seconds:'0'+seconds);
+                    self.timeDateFilterTwo(self.daoJiTime);
+                    // setInterval(function (e) {
+                    //     self.daoJiTime -= 1000;
+                    //     console.log(self.daoJiTimeSeconds);
+                    // }, 1000);
                 })
             },
             //添加状态
@@ -94,23 +104,37 @@
             //                 self.daoJiTimeSeconds = seconds;
             //     }, 1000)
             // },
-            timeDateFilterTwo: function (now1) {
-                let now = new Date(now1);
-                let hours = now.getHours(),
-                    minutes = now.getMinutes(),
-                    seconds = now.getSeconds();
-                return  (hours>=10?hours:'0'+hours)+':'+(minutes>=10?minutes:'0'+minutes)+':'+(seconds>=10?seconds:'0'+seconds);
-            },
+            timeDateFilterTwo: function (time) {
+                let  self = this;
+                let hours = Math.floor(time/(60*60*1000)),   //小时
+                    minutes = Math.floor((time - Number(self.daoJiTimeHours*60*60*1000))/(60*1000)), // 分钟
+                    seconds =Math.floor((time- Number(self.daoJiTimeHours*60*60*1000)- Number(self.daoJiTimeMinutes*60*1000))/1000);   //秒
+                setInterval(function (e) {
+                    time -= 1000;
+                     hours = Math.floor(time/(60*60*1000)),   //小时
+                        minutes = Math.floor((time - Number(self.daoJiTimeHours*60*60*1000))/(60*1000)), // 分钟
+                        seconds =Math.floor((time- Number(self.daoJiTimeHours*60*60*1000)- Number(self.daoJiTimeMinutes*60*1000))/1000);   //秒
+                }, 1000);
+              self.daoJiGeShi = (hours>=10?hours:'0'+hours)+':'+(minutes>=10?minutes:'0'+minutes)+':'+(seconds>=10?seconds:'0'+seconds);
+    },
             //点击助力去分享页面
             toSharePage(){
                 let self = this;
                 $('.is-youxiao').on('click',function () {
                     self.$http.push({name:'redItem'});
                 });
+            },
+            toRedItem(){
+                if(window.location.href.indexOf('isAPP')===-1){
+                    this.$router.push({name:'redItem'});
+                }else{
+                    this.$router.push({name:'redItem',query:{
+                            token:NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token=')))},
+                        isAPP:1})
+                }
             }
         },
         mounted(){
-
             this.$nextTick(function () {
                 this.renderFriendsList();
                 this.historyRender(this.redListData);

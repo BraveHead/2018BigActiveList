@@ -8,16 +8,16 @@
                 <p>{{this.award}}元现金已发放至晴天助账户，实名注册后可提现 并帮助好友{{this.toStringPhone(this.friendPhone)}}完成拆红包任务。</p>
             </div>
         </div>
+        <p class="current-phone">当前账户：{{toStringPhone(this.nowRegisterPhoneNumber())}}</p>
         <div class="traffic_from">
             <div class="register-form">
                 <div class="register-center">
-                    <p class="qtz-promise">* 晴天助承诺不会泄露您手机号</p>
-                    <div class="input-container" style="margin-top: 0">
-                        <input placeholder="请输入手机号" class="input-same"
-                               type="text" v-model="phoneNumber" v-on:blur="checkPhone(phoneNumber)" maxlength="11"/>
-                        <img src="../../assets/correct-icon@2x.png" v-show="checkPhone(phoneNumber)"/>
-                        <p v-show="phoneNumShow" v-bind:style="{'display': phoneDisplay}">{{phoneTitle}}</p>
-                    </div>
+                    <!--<div class="input-container" style="margin-top: 0">-->
+                        <!--<input placeholder="请输入手机号" class="input-same"-->
+                               <!--type="text" v-model="phoneNumber" v-on:blur="checkPhone(phoneNumber)" maxlength="11"/>-->
+                        <!--<img src="../../assets/correct-icon@2x.png" v-show="checkPhone(phoneNumber)"/>-->
+                        <!--<p v-show="phoneNumShow" v-bind:style="{'display': phoneDisplay}">{{phoneTitle}}</p>-->
+                    <!--</div>-->
                     <div class="input-container">
                         <input placeholder="请设置8~20位数字与字母组合密码" class="input-same"
                                type="password" v-model="passwordText" v-on:blur="checkPassword(passwordText)" maxlength="20" minlength="8"/>
@@ -37,7 +37,7 @@
                         <input placeholder="短信验证码" class="input-same"
                                type="text" v-model="checkNumberText" v-on:blur="checkWord(checkNumberText)" maxlength="6"/>
                         <img src="../../assets/correct-icon@2x.png" style="right: 1.97rem" v-show="checkWord(checkNumberText)"/>
-                        <a class="get-check" v-on:click="isPhoneExistence()" v-bind:style="{'color':clickColor}">{{getCheckWordButton}}</a>
+                        <a class="get-check" v-on:click="getPhoneCheckCode" v-bind:style="{'color':clickColor}">{{getCheckWordButton}}</a>
                         <p v-show="checkShow" v-bind:style="{'display':checkDisplay}">{{checkWordTitle}}</p>
                     </div>
                     <div class="agree-consent">
@@ -63,12 +63,12 @@
                 button: false,
                 isUp: false,
                 overflow: 'hidden',
-                phoneTitle: '请输入正确的手机号',
+                // phoneTitle: '请输入正确的手机号',
                 passwordTitle: '请输入正确格式的密码',
                 checkWordTitle: '请输入正确的验证码',
                 checkPicCode: '请输入正确的图形验证码',
                 getCheckWordButton: '获取验证码',
-                phoneNumber: '',     //手机号码
+                phoneNumber: NativeJs.prototype.getUrl('registerPhone',window.location.href.slice(window.location.href.indexOf('registerPhone='))),     //手机号码
                 phoneNumShow: false,   //号码弹框提醒判断
                 passwordText: '',    //密码
                 passwordShow: false,  //密码弹框提醒判断
@@ -108,6 +108,10 @@
                 let phoneFooter = val.slice(7);
                 return phoneHeader + '****' + phoneFooter;
             },
+            //当前注册手机号码
+            nowRegisterPhoneNumber(){
+                return NativeJs.prototype.getUrl('registerPhone',window.location.href.slice(window.location.href.indexOf('registerPhone=')));
+            },
             //初始化加载红包和好友信息
             loadStartMessage(){
                 this.award = NativeJs.prototype.getUrl('redNumber',window.location.href.slice(window.location.href.indexOf('redNumber=')));
@@ -118,14 +122,14 @@
                 this.timeStamp = Math.random().toFixed(6)*1000000+1;
                 this.loadPicCode();   //冲新加载图形验证码
             },
-            //手机号码格式验证
-            checkPhone: (text) => {
-                let filter = /^1[3456789]\d{9}$/;
-                if((filter.test(text))) {
-                    this.phoneNumShow = false;
-                }
-                return (filter.test(text));
-            },
+            // //手机号码格式验证
+            // checkPhone: (text) => {
+            //     let filter = /^1[3456789]\d{9}$/;
+            //     if((filter.test(text))) {
+            //         this.phoneNumShow = false;
+            //     }
+            //     return (filter.test(text));
+            // },
             //8-20位数字和字母的密码格式验证
             checkPassword: (text)=> {
                 let filter = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/;
@@ -175,12 +179,7 @@
             },
             //注册按钮点击事件
             submitClick () {
-                if(!this.checkPhone(this.phoneNumber) || this.phoneNumber === '') {//输入手机号码
-                    this.phoneNumShow = true;
-                    setTimeout(() => {
-                        this.phoneNumShow = false;
-                    }, 1000)
-                }else if(!this.checkPassword(this.passwordText) || this.passwordText === ''){//输入密码
+               if(!this.checkPassword(this.passwordText) || this.passwordText === ''){//输入密码
                     this.passwordShow = true;
                     setTimeout(() => {
                         this.passwordShow = false;
@@ -190,15 +189,15 @@
                     setTimeout(() => {
                         this.checkShow = false;
                     }, 1400)
-                }else if(this.checkPhone(this.phoneNumber) && this.checkPassword(this.passwordText) && this.checkWord(this.checkNumberText)){//输入校验全部正确,点击提交
+                }else if(this.checkPassword(this.passwordText) && this.checkWord(this.checkNumberText)){//输入校验全部正确,点击提交
                     // this.getChannelMessage();
                     this.register();   //注册
                 }else if(this.phoneNumber === '' && this.passwordText === '' && this.checkNumberText === ''){//没有输入点击
                     this.checkShow = true;
-                    this.phoneNumShow = true;
+                    // this.phoneNumShow = true;
                     this.passwordShow = true;
                     setTimeout(()=>{
-                        this.phoneNumShow = false;
+                        // this.phoneNumShow = false;
                         setTimeout(()=>{
                             this.passwordShow = false;
                             setTimeout(()=>{
@@ -211,33 +210,33 @@
                 }
             },
             //验证手机号是否注册
-            isPhoneExistence() {
-                if(this.checkPhone(this.phoneNumber) && !this.Duable){
-                    let _this = this;
-                    this.$http.post(this.baseUrl+'isPhoneUsed',{phoneReg:this.phoneNumber}, {emulateJSON:true})
-                        .then(function (res) {
-                            if(res.data.rcd === 'A0001' || res.data.rcd === 'M0008_23'){
-                                _this.phoneTitle = '手机号已注册！';
-                                _this.phoneNumShow = true;
-                                _this.phoneDisplay = 'block';
-                                setTimeout(()=>{
-                                    _this.phoneNumShow = false;
-                                    _this.phoneDisplay = "none";
-                                    _this.phoneTitle = '请输入正确的手机格式';
-                                },1000);
-                            }else if(res.data.rcd === 'A0002' && _this.checkPhone(_this.phoneNumber)){
-                                //获取验证码
-                                _this.isDuable = true;
-                                _this.getPhoneCheckCode();
-                            }
-                        })
-                }else{
-                    this.phoneNumShow = true;
-                    setTimeout(()=>{
-                        this.phoneNumShow = false;
-                    },1000)
-                }
-            },
+            // isPhoneExistence() {
+            //     if(this.checkPhone(this.phoneNumber) && !this.Duable){
+            //         let _this = this;
+            //         this.$http.post(this.baseUrl+'isPhoneUsed',{phoneReg:this.phoneNumber}, {emulateJSON:true})
+            //             .then(function (res) {
+            //                 if(res.data.rcd === 'A0001' || res.data.rcd === 'M0008_23'){
+            //                     _this.phoneTitle = '手机号已注册！';
+            //                     _this.phoneNumShow = true;
+            //                     _this.phoneDisplay = 'block';
+            //                     setTimeout(()=>{
+            //                         _this.phoneNumShow = false;
+            //                         _this.phoneDisplay = "none";
+            //                         _this.phoneTitle = '请输入正确的手机格式';
+            //                     },1000);
+            //                 }else if(res.data.rcd === 'A0002' && _this.checkPhone(_this.phoneNumber)){
+            //                     //获取验证码
+            //                     _this.isDuable = true;
+            //                     _this.getPhoneCheckCode();
+            //                 }
+            //             })
+            //     }else{
+            //         this.phoneNumShow = true;
+            //         setTimeout(()=>{
+            //             this.phoneNumShow = false;
+            //         },1000)
+            //     }
+            // },
             //获取验证码
             getPhoneCheckCode() {
                 let _this = this;
@@ -263,20 +262,6 @@
                         })
                 }
             },
-           /* //获取渠道分享人的信息
-            getChannelMessage() {
-                this.$http.post(this.baseUrl + 'channel/'+ this.sn,{},{emulateJSON:true})
-                    .then(function (res) {
-                        if(res.data.rcd === 'R0001'){
-                            this.channelId = res.data.id;
-                            this.channelCookie = res.data.cookie;
-                            this.register();   //注册
-                        }else{
-                            // console.log('渠道获取成功'+ res.data.rmg);
-                        }
-                    }).catch(function (res) {
-                })
-            },*/
             //注册
             register() {
                 this.$http.post(this.baseUrl + 'reg', {
@@ -294,14 +279,14 @@
                 },{emulateJSON:true}).then(function (res) {
                     switch (res.data.rcd){
                         case 'R0001':
-                            // window.location.href = "https://www.qtz360.com/ch/918/getRed.html";
+                            window.location.href = "https://www.qtz360.com/link.html";
                             break;
                         case 'M0008_2':
                             this.phoneDisplay = 'block';
-                            this.phoneTitle = '手机号已注册！';
+                            // this.phoneTitle = '手机号已注册！';
                             setTimeout(()=>{
                                 this.phoneDisplay = 'none';
-                                this.phoneTitle = '请输入正确的手机格式！';
+                                // this.phoneTitle = '请输入正确的手机格式！';
                             },1000);
                             break;
                         default   :
@@ -367,6 +352,16 @@
         background-color: #cfcfcf;
         height: 0.40rem;
     }
+    .current-phone{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.24rem;
+        color: rgb(255,255,255);
+        padding-top: 0.20rem;
+        padding-bottom: 0.23rem;
+    }
     .redList-title-one{
         display: flex;
         flex-direction: row;
@@ -398,13 +393,13 @@
         position: relative;
         span{
             position: absolute;
-            font-size: 0.62rem;
+            font-size: 0.50rem;
             font-weight: bold;
             color: rgb(255,250,84);
             text-align: center;
             width: 1.00rem;
-            height: 0.62rem;
-            top: 0.20rem;
+            height: 0.50rem;
+            top: 0.26rem;
             right: 0.47rem;
         }
     }
@@ -419,7 +414,7 @@
     }
     .register-form{
         width: 7.04rem;
-        height: 8.55rem;
+        height: 7.00rem;
         margin-left: auto;
         margin-right: auto;
         top: 0;

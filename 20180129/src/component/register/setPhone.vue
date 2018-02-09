@@ -159,11 +159,11 @@
             },
             //手机号可用，领取红包
             getRedNumberFun(){
-                this.$http.post(this.baseUrl + 'get_award',{'phone': this.friendPhone})
+                this.$http.post(this.baseUrl + 'get_award',{'phone': this.phoneNumber},{emulateJSON:true})
                     .then(function (res) {
                         if(res.data.rcd === '0000'){
                             this.award = res.data.data.award;
-                            this.$router.push({name:'register',query:{invitePhone: this.friendPhone,redNumber: this.award}});
+                            this.$router.push({name:'register',query:{invitePhone: this.friendPhone,redNumber: this.award,registerPhone:this.phoneNumber}});
                         }
                     }).catch(function (res) {
                     //
@@ -198,17 +198,20 @@
             },
             //检测链接是否有效
             checkUrlIsCanUse(){
-                this.$http.post(this.baseUrl + 'check_share_url',{
-                    'token':NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token='))),
-                    'timeStamp': NativeJs.prototype.getUrl('timeStamp',window.location.href.slice(window.location.href.indexOf('timeStamp='))),
-                    'tgNo': NativeJs.prototype.getUrl('tgNo',window.location.href.slice(window.location.href.indexOf('tgNo='))),
-                    'invitePhone':NativeJs.prototype.getUrl('invitePhone',window.location.href.slice(window.location.href.indexOf('invitePhone=')))
+                $.ajax({
+                    url: this.baseUrl + 'check_share_url',
+                    method:'POST',
+                    data:{
+                        'checkTgNo': NativeJs.prototype.getUrl('tgNo',window.location.href.slice(window.location.href.indexOf('tgNo='))),
+                        'checkTimeStamp':String(decodeURIComponent(NativeJs.prototype.getUrl('timeStamp',window.location.href.slice(window.location.href.indexOf('timeStamp='))))),
+                    }
+                }).done((res)=>{
+                    if(res.rcd === '0000'){
+                        //
+                    }else{
+                        this.$router.push({name:'redOverTime'});
+                    }
                 })
-                    .then(function (res) {
-                        if(res.data.rcd === '0000'){
-                            console.log(res.data);
-                        }
-                    })
             }
         }
     };

@@ -24,11 +24,17 @@
                 //    console.log('现在路由:',to.path.split('/')[1],'来自路由:',from.path.split('/')[1],'现在的动画:',this.transitionName)
                 const toDepth = to.path.split('/').length
                 const fromDepth = from.path.split('/').length
-                console.log(toDepth, fromDepth);
+                console.log(to, from);
                 if (to.path.indexOf('home') !== -1 || to.path === '/' + this.absUrl ) {
                     this.transitionName = 'slide-right';
                 } else {
                     this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+                }
+                //首页左上角的关闭按钮
+                if(from.name === 'index'){
+                    NativeJs.prototype.topLeftBack();
+                }else if(to.name === 'index'){
+                    NativeJs.prototype.topLeftBack();
                 }
             }
         },
@@ -41,9 +47,6 @@
             this.$nextTick(function () {
                 NativeJs();
             });
-            if(window.location.href){
-
-            }
         }
     }
 </script>
