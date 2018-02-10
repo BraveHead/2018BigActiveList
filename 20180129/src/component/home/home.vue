@@ -123,11 +123,19 @@
     .home-rules{
         height: auto;
         width: 100%;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select:none;
         .check-rules{
             font-size: 0.30rem;
             color: rgb(255,223,122);
             text-align:center;
             margin-top: 0.73rem;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select:none;
             span{
                 vertical-align: middle;
             }
@@ -158,6 +166,15 @@
         padding-bottom: 0.30rem;
         color: rgb(103,0,0);
     }
+    #topLeftBack{
+        width: 0.88rem;
+        height: 0.88rem;
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
 </style>
 
 
@@ -170,6 +187,7 @@
                 transitionName: 'fade',
                 isHideRules: true,
                 hasRedNumber: 100,
+                isZero: false,    //库存量是否不足
             }
         },
         methods:{
@@ -178,18 +196,48 @@
                 $('.check-rules img').toggleClass('rotateAnimation');
                 $('.rules-content').slideToggle();
             },
+            //获取该红包大小
+            loadUserRed(){
+                $.ajax({
+                    url: window.commonRequestPrefix + 'rob_money',
+                    dataType:'json',
+                    method:'POST',
+                    data: {
+                        token: NativeJs.prototype.getToken(),
+                    }
+                }).done((res)=>{
+                    this.renderFriendsList();
+                }).fail((error)=>{
+                    console.log(error.msg);
+                });
+            },
             //马上领取红包
             nowGetMoney(){
                 if(NativeJs.prototype.isLogin()){
                     $('.now-get-money').removeClass('red-default-animation').addClass('animationButton');
-                    //判断APP和H5
-                    if(window.location.href.indexOf('isAPP') === -1){
-                        this.$router.push({path: '/red/redList/redItem'});
-                    }else{
-                        this.$router.push({path: '/red/redList/redItem',query:{
-                                token:NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token='))),
-                                isAPP:1}});
-                    }
+                    $.ajax({
+                        url: window.commonRequestPrefix + 'rob_money',
+                        dataType:'json',
+                        method:'POST',
+                        data: {
+                            token: NativeJs.prototype.getToken(),
+                        }
+                    }).done((res)=>{
+                        if(res.rcd === '0000' || res.rcd === 'E0007'){
+                            //判断APP和H5
+                            if(window.location.href.indexOf('isAPP') === -1){
+                                this.$router.push({path: '/red/redList/redItem'});
+                            }else{
+                                this.$router.push({path: '/red/redList/redItem',query:{
+                                        token:NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token='))),
+                                        isAPP:1}});
+                            }
+                        }else{
+                            alert(res.rmg);
+                        }
+                    }).fail((error)=>{
+                        console.log(error.msg);
+                    });
                 }else{
                     NativeJs.prototype.androidIosJs({
                         android: 'androidToLogin',
@@ -227,7 +275,7 @@
                    if(res.rcd === '0000'){
                         this.hasRedNumber = res.data.hongbaoNum;
                    }else{
-                       alert(res.rmg);
+                       // alert(res.rmg);
                    }
                 })
             }
@@ -235,6 +283,23 @@
         mounted(){
             this.$nextTick(function () {
                 this.loadRedNumber();
+                NativeJs();
+                NativeJs.prototype.topLeftBack();
+                //隐藏APP右上角本地分享按钮
+                //android部分机型方法可执行，但是报错，故用try catch
+                try {
+                    NativeJs.prototype.androidIosJs({
+                        android: 'androidToGetUrl',
+                        ios: 'activityShareUrl',
+                        url: 'activityShareUrl',
+                        fx: {
+                            url: 'https://test.qtz360.com/h5/activity/xchd/index.html#/red/redList/redItem'
+                        },
+                        toggle: 0
+                    });
+                } catch (e) {
+
+                }
             });
         }
     }

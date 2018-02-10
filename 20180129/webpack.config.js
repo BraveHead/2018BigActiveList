@@ -6,8 +6,8 @@ module.exports = {
     entry: './src/main.js',
     output: {
         path: path.resolve(__dirname, './dist'),
-        // publicPath: '/dist/',
-        publicPath: '/h5/activity/xchd/dist/',
+        publicPath: '/dist/',
+        // publicPath: '/h5/activity/xchd/dist/',
         filename: 'build.js'
     },
     module: {

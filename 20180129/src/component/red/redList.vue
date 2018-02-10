@@ -19,10 +19,12 @@
             <span>拉到底啦</span>
             <s></s>
         </p>
+        <countdown endTime="1490761620" :callback="callback" endText="已经结束了！"></countdown>
     </div>
 </template>
 
 <script>
+    import countdown from '../plugins/countdown'
     export default {
         name: "redList",
         data() {
@@ -40,6 +42,9 @@
         methods: {
             backFun() {
                 this.$store.commit('backFun');
+            },
+            callback(){
+                return 'sb';
             },
             renderFriendsList(){
                 $.ajax({
@@ -140,9 +145,9 @@
                 this.historyRender(this.redListData);
             });
         },
-        filters: {
-
-        },
+        components:{
+            'countdown': countdown
+        }
     }
 </script>
 

@@ -1,23 +1,24 @@
 function NativeJs() {
     //跳转微信端前缀this
-    this.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
+    window.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
     // this.url = 'https://www.qtz360.com/h5/home.html#';     //生产环境
     //跳转微信端首页
-    this.indexUrl = 'https://test.qtz360.com/h5/index.html';    //测试环境
+    window.indexUrl = 'https://test.qtz360.com/h5/index.html';    //测试环境
     // this.indexUrl = 'https://www.qtz360.com/h5/index.html';    //生产环境
     //获取body
-    this.body = document.body;
+    window.body = document.body;
     //返回首页关闭图片
-    this.guanbi = 'data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAABYBAMAAACDuy0HAAAAD1BMVEUAAAAzMzM1NTU0NDQ1NTUvBFDLAAAABXRSTlMA/leKMCqUH30AAACJSURBVEjH7ZS7DYAwDAURsICBAZINYAPYfymEhOWOs+SC5l3l4uWUj+NBCCHEJ3OUJ4aP5tW4UnayxctuO4Qvs/aKzTYIj+bq/iwDPBOrWB1iVoeY1SHOqF2cUrs4pXZxSh1iVrOYw7yN+gH56vhR6s/NjcQtWm9+/lb8YeujgIcMjy8hhBD/cQPAXQ6dExWv1wAAAABJRU5ErkJggg==';
+    window.guanbi = 'data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAABYBAMAAACDuy0HAAAAD1BMVEUAAAAzMzM1NTU0NDQ1NTUvBFDLAAAABXRSTlMA/leKMCqUH30AAACJSURBVEjH7ZS7DYAwDAURsICBAZINYAPYfymEhOWOs+SC5l3l4uWUj+NBCCHEJ3OUJ4aP5tW4UnayxctuO4Qvs/aKzTYIj+bq/iwDPBOrWB1iVoeY1SHOqF2cUrs4pXZxSh1iVrOYw7yN+gH56vhR6s/NjcQtWm9+/lb8YeujgIcMjy8hhBD/cQPAXQ6dExWv1wAAAABJRU5ErkJggg==';
 }
 
 //左上角页面关闭按钮 obj.topLeftBack(),一次显示，再一次隐藏
 NativeJs.prototype.topLeftBack = function () {
+    console.log();
     if (document.getElementById('topLeftBack')) {
         window.body.removeChild(document.getElementById('topLeftBack'));
     } else if (!this.isApp()) {
-        var dom = '<a id="topLeftBack" href="' + this.indexUrl + '"><img src="' + this.guanbi + '" alt="" style="width: 44px;position:' +
-            ' absolute;top:0;left:0;background-color: rgba(255, 255, 255, .5)"></a>';
+        var dom = '<a id="topLeftBack" href="' + window.indexUrl + '"><img src="' + window.guanbi + '" alt="" style="width: 44px;position:' +
+            ' absolute;top:0;left:0;background-color: rgba(255, 255, 255, .5);z-index: 100;"></a>';
         document.body.insertAdjacentHTML('afterBegin', dom);
     }
 };
@@ -68,7 +69,6 @@ NativeJs.prototype.getToken = function () {
     if (this.isApp()) {
         token = this.getUrl('token', window.location.href.slice(window.location.href.indexOf('token=')));
     } else {
-        // token = '0c62b2fa1841a5aa67b0729539e5118b'
         token = this.getCookie('token');
     }
     return token;
@@ -177,7 +177,7 @@ NativeJs.prototype.androidIosJs = function (obj) {
                 window.location.href = window.url + '/user/login?entry=activity&url=' + window.location.href;
                 break;
             default:
-                window.location.href = this.url + o.url;
+                window.location.href = window.url + o.url;
                 break;
         }
     }

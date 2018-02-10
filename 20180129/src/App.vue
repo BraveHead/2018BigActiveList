@@ -30,11 +30,12 @@
                 } else {
                     this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
                 }
-                //首页左上角的关闭按钮
+                // //首页左上角的关闭按钮
+                NativeJs();
                 if(from.name === 'index'){
                     NativeJs.prototype.topLeftBack();
                 }else if(to.name === 'index'){
-                    NativeJs.prototype.topLeftBack();
+                    // NativeJs.prototype.topLeftBack();
                 }
             }
         },

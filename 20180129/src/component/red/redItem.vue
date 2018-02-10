@@ -29,7 +29,7 @@
                     </li>
                 </ul>
             </div>
-            <navigation :pages="pages" :current.sync="pageNo" @navpage="this.msgListView" style="position: absolute; left: 50%;width: 6.00rem;margin-left: -3.00rem;bottom: 0.60rem;"></navigation>
+            <navigation :pages="pages" :current.sync="pageNo" @navpage="this.msgListView" style="position: absolute; left: 50%;width: 6.00rem;margin-left: -3.00rem;bottom: 0.50rem;"></navigation>
         </div>
         <div class="bg-alert">
             <img src="../../assets/fx.png" class="top"/>
@@ -55,21 +55,6 @@
             }
         },
         methods: {
-            //获取该红包大小
-            loadUserRed(){
-                $.ajax({
-                    url: window.commonRequestPrefix + 'rob_money',
-                    dataType:'json',
-                    method:'POST',
-                    data: {
-                        token: NativeJs.prototype.getToken(),
-                    }
-                }).done((res)=>{
-                    this.renderFriendsList();
-                }).fail((error)=>{
-                    console.log(error.msg);
-                });
-            },
             //好友拆红包进度
             renderFriendsList(){
                 $.ajax({
@@ -113,17 +98,17 @@
                             fx: {
                                 shareUrl: 'https://test.qtz360.com/h5/activity/xchd/index.html#/user/setPhone?tgNo=' +
                                 res.data.tgNo +'&timeStamp=' + res.data.timeStamp + '&invitePhone=' +res.data.invitePhone,
-                                shareTitle: '新春大放送，准点抢现金',
-                                shareDesc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元现金红包，快来帮我拆开吧！",
-                                shareIcon: '分享icon，绝对地址'
+                                shareTitle: '晴天助新春大放送，快来帮我抢',
+                                shareDesc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元，快来帮我拆开吧！",
+                                shareIcon: 'https://test.qtz360.com/h5/activity/xchd/dist/images/xchd-fx.jpg'
                             },
                             wxfx: function(){
                                 wxfx({
-                                    title: '新春大放送，准点抢现金',
-                                    desc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元现金红包，快来帮我拆开吧！",
+                                    title: '晴天助新春大放送，快来帮我抢',
+                                    desc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元，快来帮我拆开吧！",
                                     link: 'https://test.qtz360.com/h5/activity/xchd/index.html#/user/setPhone?tgNo=' +
                                     res.data.tgNo +'&timeStamp=' + res.data.timeStamp + '&invitePhone=' +res.data.invitePhone,
-                                    imgUrl: '分享icon，绝对地址',
+                                    imgUrl: 'https://test.qtz360.com/h5/activity/xchd/dist/images/xchd-fx.jpg',
                                     cancel: function(){},       //取消分享回调方法  可省略
                                     success: function(){}       //完成分享回调方法  可省略
                                 });
@@ -164,24 +149,8 @@
         },
         mounted(){
             this.$nextTick(function () {
-                this.loadUserRed();
+                this.renderFriendsList();
                 this.getFriendsLIst();
-                //隐藏APP右上角本地分享按钮
-                //android部分机型方法可执行，但是报错，故用try catch
-                try {
-                    NativeJs.prototype.androidIosJs({
-                        android: 'androidToGetUrl',
-                        ios: 'activityShareUrl',
-                        url: 'activityShareUrl',
-                        fx: {
-                            url: 分享地址
-                        },
-                        toggle: 0
-                    });
-                } catch (e) {
-
-                }
-
             });
         },
         components: {
