@@ -152,9 +152,13 @@ NativeJs.prototype.androidIosJs = function (obj) {
                     case 'activityShareUrl':
                         bridge.callHandler(o.ios, {shareUrl: fx.shareUrl, shareHidden: toggle});
                         break;
-                    //点击分享
+                    //点击分享 TODO 新版本写法
+                    // case 'activityToShare':
+                    //     bridge.callHandler(o.ios, fx);
+                    //     break;
+                        //旧版本ios兼容写法
                     case 'activityToShare':
-                        bridge.callHandler(o.ios, fx);
+                        bridge.callHandler(o.ios, fx.shareUrl);
                         break;
                     default:
                         bridge.callHandler(o.ios);
