@@ -19,7 +19,7 @@
     </nav>
 </template>
 
-<script>
+<script type="es6">
     export default {
         name: "navigation",
         data(){
@@ -69,7 +69,7 @@
     }
 </script>
 
-<style scoped rel="stylesheet/scss" lang="scss">
+<style scoped type="text/scss" lang="scss">
     .pagination{
         display: flex;
         align-items: center;

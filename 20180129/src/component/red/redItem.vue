@@ -14,7 +14,9 @@
             <img src="../../assets/redList-jingdu.png" class="redList-jingdu"/>
             <p class="renwu-jingdu">
                 <span>任务完成：</span>
-                <span>{{this.todayRealNamePeople}}/{{this.todayAllPeople}}</span>
+                <span>{{this.todayRealNamePeople}}</span>
+                <span>/</span>
+                <span>{{this.todayAllPeople}}</span>
             </p>
             <div class="friends-recode-history">
                 <div class="">
@@ -38,7 +40,7 @@
     </div>
 </template>
 
-<script>
+<script type="es6">
     import navigation1 from '../plugins/navigation'
     export default {
         name: "redList",
@@ -96,19 +98,19 @@
                             ios: 'activityToShare',
                             url: 'activityToShare',
                             fx: {
-                                shareUrl: 'https://test.qtz360.com/h5/activity/xchd/index.html#/user/setPhone?tgNo=' +
+                                shareUrl: 'https://www.qtz360.com/h5/html/activity/20180212/1/index.html#/user/setPhone?tgNo=' +
                                 res.data.tgNo +'&timeStamp=' + res.data.timeStamp + '&invitePhone=' +res.data.invitePhone,
                                 shareTitle: '晴天助新春大放送，快来帮我抢',
                                 shareDesc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元，快来帮我拆开吧！",
-                                shareIcon: 'https://test.qtz360.com/h5/activity/xchd/dist/images/xchd-fx.jpg'
+                                shareIcon: 'https://www.qtz360.com/h5/html/activity/20180212/1/dist/images/xchd-fx.jpg'
                             },
                             wxfx: function(){
                                 wxfx({
                                     title: '晴天助新春大放送，快来帮我抢',
                                     desc: "恭贺新春，我在晴天助领取了#"+self.carshMoney+"#元，快来帮我拆开吧！",
-                                    link: 'https://test.qtz360.com/h5/activity/xchd/index.html#/user/setPhone?tgNo=' +
+                                    link: 'https://www.qtz360.com/h5/html/activity/20180212/1/index.html#/user/setPhone?tgNo=' +
                                     res.data.tgNo +'&timeStamp=' + res.data.timeStamp + '&invitePhone=' +res.data.invitePhone,
-                                    imgUrl: 'https://test.qtz360.com/h5/activity/xchd/dist/images/xchd-fx.jpg',
+                                    imgUrl: 'https://www.qtz360.com/h5/html/activity/20180212/1/dist/images/xchd-fx.jpg',
                                     cancel: function(){},       //取消分享回调方法  可省略
                                     success: function(){}       //完成分享回调方法  可省略
                                 });
@@ -159,7 +161,7 @@
     }
 </script>
 
-<style scoped rel="stylesheet/scss" lang="scss">
+<style scoped type="text/scss" lang="scss">
     #redList {
         width: 100%;
         height: auto;

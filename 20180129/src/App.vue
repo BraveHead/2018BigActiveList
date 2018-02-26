@@ -6,11 +6,9 @@
     </div>
 </template>
 
-<script>
-    import store from './vuex/main'
+<script type="es6">
     export default {
         name: 'app',
-        store,
         data() {
             return {
                 msg: 'Welcome to Your Vue.js App',
@@ -24,7 +22,6 @@
                 //    console.log('现在路由:',to.path.split('/')[1],'来自路由:',from.path.split('/')[1],'现在的动画:',this.transitionName)
                 const toDepth = to.path.split('/').length
                 const fromDepth = from.path.split('/').length
-                console.log(to, from);
                 if (to.path.indexOf('home') !== -1 || to.path === '/' + this.absUrl ) {
                     this.transitionName = 'slide-right';
                 } else {
@@ -41,7 +38,7 @@
         },
         methods: {
             activated: function () {
-                this.$getGoIndex()
+
             },
         },
         mounted(){

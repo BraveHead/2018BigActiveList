@@ -6,8 +6,8 @@ module.exports = {
     entry: './src/main.js',
     output: {
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
-        // publicPath: '/h5/activity/xchd/dist/',
+        // publicPath: '/dist/',
+        publicPath: '/h5/html/activity/20180212/1/dist/',
         filename: 'build.js'
     },
     module: {
@@ -97,12 +97,12 @@ if (process.env.NODE_ENV === 'production') {
                 NODE_ENV: '"production"'
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: false,
-            compress: {
-                warnings: false
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     sourceMap: false,
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
         new webpack.LoaderOptionsPlugin({
             minimize: false
         }),

@@ -5,27 +5,21 @@
         <p style="font-family: PingFangSC-Regular;font-size: 0.24rem;color: #8D8D8D;line-height: 0.24rem;padding-top: 0.34rem">请告知您的邀请人，该链接已失效，请重新进入活动获取!</p>
     </div>
 </template>
-<script>
+<script type="es6">
     export default {
         name: "redOverTime",
         data() {
             return {
                 redListData: [
-                    {'title': '5元现金'},
-                    {'title': '5元现金'},
-                    {'title': '5元现金'},
-                    {'title': '5元现金'},
-                    {'title': '5元现金'},
+
                 ]
             }
         },
         methods: {
-            backFun() {
-                this.$store.commit('backFun');
-            }
+
         }
     }
 </script>
-<style scoped>
+<style scoped type="text/scss" lang="scss">
 
 </style>

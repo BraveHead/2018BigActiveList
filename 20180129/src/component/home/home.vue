@@ -28,7 +28,7 @@
     </div>
 </template>
 
-<style scoped type="text/css" lang="scss" rel="stylesheet/scss">
+<style scoped type="text/scss" lang="scss">
     .base-time{
         transition: all 0.5s ease-in-out;
     }
@@ -178,7 +178,7 @@
 </style>
 
 
-<script>
+<script type="es6">
     export default {
         name: "home",
         data() {
@@ -293,7 +293,7 @@
                         ios: 'activityShareUrl',
                         url: 'activityShareUrl',
                         fx: {
-                            url: 'https://test.qtz360.com/h5/activity/xchd/index.html#/red/redList/redItem'
+                            url: 'https://www.qtz360.com/h5/html/activity/20180212/1/index.html#/red/redList/redItem'
                         },
                         toggle: 0
                     });

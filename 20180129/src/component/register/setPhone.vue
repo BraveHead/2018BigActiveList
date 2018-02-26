@@ -87,7 +87,7 @@
         font-weight: bold;
     }
 </style>
-<script>
+<script type="es6">
     export default {
         name: 'register',
         data() {

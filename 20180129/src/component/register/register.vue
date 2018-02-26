@@ -55,7 +55,7 @@
     </div>
 </template>
 
-<script>
+<script type="es6">
     export default {
         name:'setPhone',
         data() {
@@ -320,7 +320,7 @@
     });*/
 </script>
 
-<style scoped lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" type="text/scss">
     body{
         position: relative;
         width: 100%;

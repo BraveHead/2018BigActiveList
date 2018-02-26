@@ -1,10 +1,10 @@
 function NativeJs() {
     //跳转微信端前缀this
-    window.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
-    // this.url = 'https://www.qtz360.com/h5/home.html#';     //生产环境
+    // window.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
+    this.url = 'https://www.qtz360.com/h5/home.html#';     //生产环境
     //跳转微信端首页
-    window.indexUrl = 'https://test.qtz360.com/h5/index.html';    //测试环境
-    // this.indexUrl = 'https://www.qtz360.com/h5/index.html';    //生产环境
+    // window.indexUrl = 'https://test.qtz360.com/h5/index.html';    //测试环境
+    this.indexUrl = 'https://www.qtz360.com/h5/index.html';    //生产环境
     //获取body
     window.body = document.body;
     //返回首页关闭图片

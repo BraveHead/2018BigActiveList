@@ -19,12 +19,10 @@
             <span>拉到底啦</span>
             <s></s>
         </p>
-        <countdown endTime="1490761620" :callback="callback" endText="已经结束了！"></countdown>
     </div>
 </template>
 
-<script>
-    import countdown from '../plugins/countdown'
+<script type="es6">
     export default {
         name: "redList",
         data() {
@@ -40,9 +38,6 @@
             }
         },
         methods: {
-            backFun() {
-                this.$store.commit('backFun');
-            },
             callback(){
                 return 'sb';
             },
@@ -134,8 +129,10 @@
                     this.$router.push({name:'redItem'});
                 }else{
                     this.$router.push({name:'redItem',query:{
-                            token:NativeJs.prototype.getUrl('token',window.location.href.slice(window.location.href.indexOf('token=')))},
-                        isAPP:1})
+                            token:NativeJs.prototype.getUrl('token',
+                                window.location.href.slice(window.location.href.indexOf('token='))),
+                            isAPP:1
+                        }})
                 }
             }
         },
@@ -145,13 +142,10 @@
                 this.historyRender(this.redListData);
             });
         },
-        components:{
-            'countdown': countdown
-        }
     }
 </script>
 
-<style scoped rel="stylesheet/scss" lang="scss">
+<style scoped type="text/scss" lang="scss">
     ul,li {
         list-style: none;
     }
