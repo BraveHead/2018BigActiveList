@@ -98,6 +98,7 @@ NativeJs.prototype.getCookie = function (cname) {
 
 //用户是否登录    obj.isLogin()
 NativeJs.prototype.isLogin = function () {
+    console.log(this);
     var token = this.getToken() || '';
     var result = false;
     $.ajax({
@@ -111,6 +112,9 @@ NativeJs.prototype.isLogin = function () {
                 result = true;
                 this.isMallAddressSet = _data.isMallAddressSet;
                 this.mallAddress = _data.mallAddress;
+                //把用户的地址暴露在全局变量中，用于活动开发
+                window.isActivityMallAddressSet = _data.isMallAddressSet;
+                window.activityMallAddress = _data.mallAddress;
             } else {
                 result = false;
             }
@@ -118,56 +122,6 @@ NativeJs.prototype.isLogin = function () {
     });
     return result;
 };
-// //收货地址的三端交互
-// NativeJs.prototype.nativeJs = function (obj) {
-//     var o = obj || {};
-//     if (this.isApp()) {
-//         var fx = o.fx ? o.fx : {};
-//         var toggle = o.toggle ? o.toggle : 0; //1=显示 0=隐藏
-//         if (window[o.android]) {
-//             switch (o.android) {
-//                 //收货地址判断
-//                 case 'androidToAddress':
-//                     var mallAddress = o.mallAddress ? JSON.stringify(o.mallAddress) : '';
-//                     window[o.android][o.android](this.isMallAddressSet, mallAddress);
-//                     break;
-//                 //页面加载直接分享
-//                 case 'androidToGetUrl':
-//                     window[o.android][o.android](fx.shareUrl, toggle);
-//                     break;
-//                 //点击分享,邀请好友
-//                 case 'androidToShare':
-//                     window[o.android][o.android]('');
-//                     break;
-//                 //点击分享,自定义参数
-//                 case 'activityToShare':
-//                     window[o.android][o.android](fx.shareUrl, fx.shareTitle, fx.shareDesc, fx.shareIcon);
-//                     break;
-//                 default:
-//                     window[o.android][o.android]();
-//                     break;
-//             }
-//         } else {
-//             this.setupWebViewJavascriptBridge(function (bridge) {
-//                 /* Initialize your app here */
-//                 //所有与iOS交互的JS代码放这里！
-//                 switch (o.ios) {
-//                     //收货地址判断
-//                     case 'activityToAddress':
-//                         if (o.mallAddress) {
-//                             var mallAddress1 = o.mallAddress;
-//                             mallAddress1.isEdit = 1;
-//                             bridge.callHandler(o.ios, mallAddress1);
-//                         } else {
-//                             bridge.callHandler(o.ios);
-//                         }
-//                         break;
-//                     //页面加载直接分享
-//                     case 'activityShareUrl':
-//                         bridge.callHandler(o.ios, {shareUrl: fx.shareUrl, shareHidden: toggle});
-//                         break;
-//                         //点击分享
-
 //nativeJS交互    obj.androidIosJs(obj)
 NativeJs.prototype.androidIosJs = function (obj) {
     var o = obj || {};
@@ -234,7 +188,7 @@ NativeJs.prototype.androidIosJs = function (obj) {
         switch (o.url) {
             //收货地址
             case 'activityToAddress':
-                window.location.href = this.url + '/user/address?entry=activity&url=' + window.location.href;
+                window.location.href = window.url + '/user/address?entry=activity&url=' + window.location.href;
                 break;
             //页面加载直接分享
             case 'activityShareUrl':

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <!--ios适配meta-->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <title>返现狂欢，壕气来袭</title>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="style/main.css"/>
+</head>
+<body>
+<script>
+    var autoSetRem = (function (doc, win) {
+        var docEl = doc.documentElement,
+            done = false,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            set = function (paper) {
+                if (paper == null) {
+                    paper = 750;
+                }
+                var clientWidth = docEl.clientWidth || win.innerWidth || screen.width;
+                if (clientWidth >= 1200) {
+                    clientWidth = 750;
+                }
+                if (clientWidth <= 320) {
+                    clientWidth = 320;
+                }
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / paper) + 'px';
+                done = true;
+                return done;
+            };
+        return {
+            set: set
+        };
+        //AbortifbrowserdoesnotsupportaddEventListener
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, set, false);
+        doc.addEventListener('DOMContentLoaded', set, false);
+    })(document, window);
+    autoSetRem.set(750);
+</script>
+<div class="banner-contianer">
+    <img src="./assets/active-rules-btn.png" class="hd-btn"/>
+</div>
+<div class="module-one">
+    <div class="tm-context">
+        <p class="question-title">晴天助A轮融资金额？ </p>
+        <p style="padding-top: 0.26rem;" class="choice-answer">
+            <img src="./assets/no-choice.png" class="choice" data-type="0"/>
+            <span class="question-a">5000万元</span>
+        </p>
+        <p style="padding-top: 0.20rem;" class="choice-answer">
+            <img src="./assets/no-choice.png" class="choice" data-type="0"/>
+            <span class="question-b">3000万元</span>
+        </p>
+        <img class="submit" src="./assets/submit-normal.png"/>
+    </div>
+</div>
+<div class="module-two">
+    <p class="huadeng-ts">点亮10盏花灯将获得1张100元京东E卡</p>
+    <div class="deng-list">
+
+    </div>
+    <div class="yq-friends">
+        <img src="./assets/share-btn.png" class="yq-btn"/>
+        <p style="padding-top: 0.40rem;"><span>活动期间内注册并投资好友：</span><a class="friends-number">0</a><span>位</span></p>
+        <p style="padding-top: 0.20rem;"><span>已获得花灯数量：</span><a class="deng-number">0</a><span>盏</span></p>
+    </div>
+    <img src="./assets/address-btn.png" class="address-btn"/>
+</div>
+<div class="module-thr">
+
+</div>
+<img src="./assets/footer-rules.png" class="footer"/>
+<div class="alert-container">
+    <div class="alert-content">
+        <div class="alert-text">
+            <div class="alert-text-center">
+                <h3 class="q-title">猜错了，请明天再来吧！</h3>
+                <p class="q-text">正确答案：F罩杯</p>
+            </div>
+        </div>
+        <img src="./assets/close-bg.png" class="close-bg"/>
+    </div>
+</div>
+<div class="bg-alert">
+    <img src="./assets/fx.png" class="top"/>
+    <img src="./assets/gb.png" class="bot"/>
+</div>
+<img src="./assets/go-project-list.png" class="go-project-list"/>
+<script src="static/jquery-1.10.1.min.js"></script>
+<script src="https://www.qtz360.com/h5/plugins/commonRequestPrefix.js"></script>
+<script src="https://www.qtz360.com/h5/plugins/wechat.js"></script>
+<script src="https://www.qtz360.com/h5/plugins/wxfxinit.js"></script>
+<script src="static/nativeJs.js"></script>
+<script src="script/main.js"></script>
+</body>
+</html>
