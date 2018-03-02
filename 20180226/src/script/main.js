@@ -6,7 +6,7 @@ $(document).ready(function () {
     let $submit = $('.submit');
     let list = $('.deng-list');
     //点击弹出规则
-    $('.hd-btn').on('touchstart', function (ev) {
+    $('.hd-btn').on('touchstart', function (event) {
         let e = window.event||event;
         e.stopPropagation();
         $('.alert-text').html(`
@@ -19,27 +19,31 @@ $(document).ready(function () {
         `);
         $('.alert-container').show();
         $('.alert-content').fadeIn();
-        $('.close-bg').on('touchstart', function (ev) {
+        $('.close-bg').on('touchstart', function (event) {
             let e = window.event||event;
             e.stopPropagation();
             $('.alert-container,.alert-content').hide();
         })
     });
-
     //页面滚动，去投资按钮隐藏
-    $(document).on('touchmove', function (ev) {
+    // $(document).off().on('touchstart', function (event) {
+    //     let e = window.event||event;
+    //     e.stopPropagation();
+    //     alert('start');
+    // });
+    // alert('123');
+    $(document).off().on('touchmove', function (event) {
         let e = window.event||event;
         e.stopPropagation();
-        $('.go-project-list').fadeOut();
+        $('.go-project-list').hide();
     });
-    $(document).on('touchend', function (ev) {
+    $(document).on('touchend', function (event) {
         let e = window.event||event;
-        // e.preventDefault();
         e.stopPropagation();
-        $('.go-project-list').fadeIn();
+        $('.go-project-list').show();
     });
     //去投资
-    $('.go-project-list').on('touchstart', function (ev) {
+    $('.go-project-list').on('touchstart', function (event) {
         let e = window.event||event;
         e.stopPropagation();
         goOrNotLogin(function () {
@@ -133,14 +137,14 @@ $(document).ready(function () {
     }
 
     //邀请好友，点击分享链接
-    $('.yq-btn').on('touchstart', function (ev) {
+    $('.yq-btn').on('touchstart', function (event) {
         let e = window.event||event;
         e.stopPropagation();
         goOrNotLogin(function () {
             //APP端点击分享直接调用各自的方法，禁止app内内置浏览器的分享
             if (window.location.href.indexOf('isAPP') === -1) {
                 $('.bg-alert').fadeIn();
-                $('.bot').on('touchstart', function (ev) {
+                $('.bot').on('touchstart', function (event) {
                     let e = window.event||event;
                     e.stopPropagation();
                     $('.bg-alert').fadeOut();
@@ -189,7 +193,7 @@ $(document).ready(function () {
     });
 
     //查看收货地址
-    $('.address-btn').on('touchstart', function (ev) {
+    $('.address-btn').on('touchstart', function (event) {
         let e = window.event||event;
         e.stopPropagation();
         goOrNotLogin(function () {
@@ -212,7 +216,7 @@ $(document).ready(function () {
 
     //选择答案
     let $choice = $('.choice-answer');
-    $choice.on('touchstart', function (ev) {
+    $choice.on('touchstart', function (event) {
         let e = window.event||event;
         e.stopPropagation();
         let index = $choice.index(this);
@@ -229,7 +233,7 @@ $(document).ready(function () {
     //点击提交答案
     function submitAnswer(number) {
         if (canAnswer) {
-            $submit.on('touchstart', function (ev) {
+            $submit.on('touchstart', function (event) {
                 let e = window.event||event;
                 e.stopPropagation();
                 if (choiceType === null) {
@@ -240,7 +244,7 @@ $(document).ready(function () {
                                     `);
                     $('.alert-container').show();
                     $('.alert-content').fadeIn();
-                    $('.close-bg').on('touchstart', function (ev) {
+                    $('.close-bg').on('touchstart', function (event) {
                         let e = window.event||event;
                         e.stopPropagation();
                         $('.alert-container,.alert-content').hide();
@@ -305,7 +309,7 @@ $(document).ready(function () {
                                     loadingFriends();   //数据提交，刷新
                                     break;
                             }
-                            $('.close-bg').on('touchstart', function (ev) {
+                            $('.close-bg').on('touchstart', function (event) {
                                 let e = window.event||event;
                                 e.stopPropagation();
                                 $('.alert-container,.alert-content').hide();
