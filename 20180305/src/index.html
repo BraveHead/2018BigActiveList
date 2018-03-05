@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <!--ios适配meta-->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <title>女神我想送你一朵小花花</title>
+    <!-- Link Swiper's CSS -->
+    <link rel="shortcut icon" type="image/ico" href="https://test.qtz360.com/h5/favicon.ico">
+    <link rel="stylesheet" href="style/main.css"/>
+</head>
+<body>
+<script>
+    var autoSetRem = (function (doc, win) {
+        var docEl = doc.documentElement,
+            done = false,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            set = function (paper) {
+                if (paper == null) {
+                    paper = 750;
+                }
+                var clientWidth = docEl.clientWidth || win.innerWidth || screen.width;
+                if (clientWidth >= 1200) {
+                    clientWidth = 750;
+                }
+                if (clientWidth <= 320) {
+                    clientWidth = 320;
+                }
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / paper) + 'px';
+                done = true;
+                return done;
+            };
+        return {
+            set: set
+        };
+        //AbortifbrowserdoesnotsupportaddEventListener
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, set, false);
+        doc.addEventListener('DOMContentLoaded', set, false);
+    })(document, window);
+    autoSetRem.set(750);
+</script>
+<div class="banner-contianer"></div>
+<div class="module-one">
+    <img src="./assets/module-one-title.png" class="module-one-title"/>
+    <p style="padding-top: 0.20rem;" class="module-one-text">投资35天标及以上标的（后缀为：女神福利）即可免费参与兑换大礼</p>
+    <p class="module-one-text">现金无限领，购物卡<span>仅限领取一次</span>！</p>
+    <ul class="account-list">
+        <li>
+            <p>我的投资总额度:</p>
+            <span class="my-account-all"><a class="go-check-account">登录查看</a></span>
+        </li>
+        <li>
+            <p>剩余可兑换额度:</p>
+            <span class="my-account-use"><a class="go-check-account">登录查看</a></span>
+        </li>
+    </ul>
+    <ul class="module-one-list">
+        <li>
+            <p class="module-item-name" style="top: 2.20rem;">京东100元购物卡</p>
+            <p class="module-item-condition">(不限兑换次数)</p>
+            <div class='module-submit-container'>
+                <span>消耗投资额：</span>
+                <span>10万元</span>
+                <img src="./assets/go-exchange.png"/>
+            </div>
+            <img src="./assets/exchange-once.png" class="exchange-once"/>
+        </li>
+        <li>
+            <p class="module-item-name">京东100元购物卡</p>
+            <div class='module-submit-container'>
+                <span>消耗投资额：</span>
+                <span>10万元</span>
+                <img src="./assets/go-exchange.png"/>
+            </div>
+        </li>
+        <li>
+            <p class="module-item-name">京东100元购物卡</p>
+            <div class='module-submit-container'>
+                <span>消耗投资额：</span>
+                <span>10万元</span>
+                <img src="./assets/go-exchange.png"/>
+            </div>
+        </li>
+        <li>
+            <p class="module-item-name">京东100元购物卡</p>
+            <div class='module-submit-container'>
+                <span>消耗投资额：</span>
+                <span>10万元</span>
+                <img src="./assets/go-exchange.png"/>
+            </div>
+        </li>
+        <li>
+            <p class="module-item-name">京东100元购物卡</p>
+            <div class='module-submit-container'>
+                <span>消耗投资额：</span>
+                <span>10万元</span>
+                <img src="./assets/go-exchange.png"/>
+            </div>
+        </li>
+        <li>
+            <p class="module-item-name">京东100元购物卡</p>
+            <div class='module-submit-container'>
+                <span>消耗投资额：</span>
+                <span>10万元</span>
+                <img src="./assets/go-exchange.png"/>
+            </div>
+        </li>
+    </ul>
+    <img src="./assets/exchange-history.png" class="exchange-history"/>
+</div>
+<img src="./assets/module-two-pic.png" class="module-two-pic"/>
+<div class="activity-rules">
+    <img src="./assets/activity-rules-title.png"/>
+    <p style="padding-top: 0.32rem;">1.     活动时间2018.3.7-3.16日，活动一礼品在3.18日晚23:59分停止兑换，未兑换的用户请及时兑换。 </p>
+    <p>2.     京东e卡，由晴天助统一采购，活动结束后的7个工作日内快递陆续发放；请填写好收货地址，若收货地址有误导致丽萍发放失败，晴天助不予承担，兑换现金用户实时到账。 </p>
+    <p>3.     长标返现活动返现金实时到账，请用户在投资后查看晴天助个人账户。 </p>
+    <p>4.     如有疑问请咨询晴天助客服热线：0571-28205520或者客服QQ:3378831238。 </p>
+    <p>4.     活动最终解释权在法律允许的范围内归晴天助所有。 </p>
+    <span>投资有风险，理财需谨慎</span>
+</div>
+<a class="go-project-list">
+    立即投资
+</a>
+<div class="bg-alert">
+    <div class="alert-contianer">
+        <div class="alert-content">
+            <h3 class="alert-title" style="padding-top: 0.50rem;">兑换成功</h3>
+            <p class="alert-same-text" style="padding-top: 0.30rem;">您成功兑换400元现金</p>
+            <p class="alert-same-text" style="padding-top: 0.12rem;">消耗兑换额度40000元</p>
+            <img src="./assets/tz.png" class="same-submit" style="margin-left: 0.48rem;margin-top: 0.20rem;"/>
+            <img src="./assets/go-dh.png" class="same-submit" style="margin-left: 0.30rem;margin-top: 0.20rem;"/>
+
+            <!--<h3 class="alert-title" style="padding-top: 0.50rem;">兑换失败</h3>-->
+            <!--<p class="alert-same-text" style="padding-top: 0.40rem;">您成功兑换400元现金</p>-->
+            <!--<img src="./assets/go-tz.png" class="same-submit" style='margin-left:1.40rem;'/>-->
+        </div>
+        <img src="./assets/close-bg.png" class="close-bg"/>
+    </div>
+   <!-- <div class="alert-contianer" style="height: 5.20rem;background-size: 5.78rem 5.60rem;">
+        <div class="alert-content" style="margin-top: -0.70rem;">
+            <h3 class="alert-title" style="padding-top: 0.30rem;">兑换记录</h3>
+            <div class="histroy-container">
+                <p class="history-same-style">
+                    <span>兑换商品</span>
+                    <span>数量</span>
+                    <span>消耗投资额度</span>
+                </p>
+                <ul class="history-ul">
+
+                </ul>
+            </div>
+            <p class="shengyu-account">剩余可兑换额度：<span>10000</span>元</p>
+            <img src="./assets/go-tz.png" class="same-submit" style="margin-left: 1.40rem;"/>
+        </div>
+        <img src="./assets/close-bg.png" class="close-bg"/>
+    </div>-->
+</div>
+<script src="static/jquery-1.10.1.min.js"></script>
+<script src="https://test.qtz360.com/h5/plugins/commonRequestPrefix.js"></script>
+<script src="https://test.qtz360.com/h5/plugins/wechat.js"></script>
+<script src="https://test.qtz360.com/h5/plugins/wxfxinit.js"></script>
+<script src="static/nativeJs.js"></script>
+<script src="script/main.js"></script>
+</body>
+</html>
