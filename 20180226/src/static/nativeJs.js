@@ -110,11 +110,8 @@ NativeJs.prototype.isLogin = function () {
         success: function (_data) {
             if (_data.rcd === 'R0001') {
                 result = true;
-                this.isMallAddressSet = _data.isMallAddressSet;
-                this.mallAddress = _data.mallAddress;
-                //把用户的地址暴露在全局变量中，用于活动开发
-                window.isActivityMallAddressSet = _data.isMallAddressSet;
-                window.activityMallAddress = _data.mallAddress;
+                window.isMallAddressSet = _data.isMallAddressSet;
+                window.mallAddress = _data.mallAddress;
             } else {
                 result = false;
             }
@@ -133,7 +130,7 @@ NativeJs.prototype.androidIosJs = function (obj) {
                 //收货地址判断
                 case 'androidToAddress':
                     var mallAddress = o.mallAddress ? JSON.stringify(o.mallAddress) : '';
-                    window[o.android][o.android](this.isMallAddressSet, mallAddress);
+                    window[o.android][o.android](isMallAddressSet, mallAddress);
                     break;
                 //页面加载直接分享
                 case 'androidToGetUrl':

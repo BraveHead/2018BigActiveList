@@ -197,23 +197,22 @@ $(document).ready(function () {
         let e = window.event||event;
         e.stopPropagation();
         goOrNotLogin(function () {
-            if (isActivityMallAddressSet === 0) {
+            if (isMallAddressSet === 0) {
                 NativeJs.prototype.androidIosJs({
                     android: 'androidToAddress',
                     ios: 'activityToAddress',
-                    url: 'activityToAddress'
+                    url: 'activityToAddress',
                 })
             } else {
                 NativeJs.prototype.androidIosJs({
                     android: 'androidToAddress',
                     ios: 'activityToAddress',
                     url: 'activityToAddress',
-                    mallAddress: activityMallAddress
+                    mallAddress: mallAddress
                 })
             }
         });
     });
-
     //选择答案
     let $choice = $('.choice-answer');
     $choice.on('touchstart', function (event) {
@@ -278,7 +277,7 @@ $(document).ready(function () {
                                     } else {
                                         $('.alert-text').html(`
                                       <div class="alert-text-center">
-                                        <h3 class="q-title"><img src="./assets/xiao.png"/><span>猜对了，请明天再来吧！</span></h3>
+                                        <h3 class="q-title"><img src9="./assets/xiao.png"/><span>猜对了，请明天再来吧！</span></h3>
                                         <p class="q-text">您获得了${res.data.name}</p>
                                       </div>
                                     `);
