@@ -1,10 +1,10 @@
 function NativeJs() {
     //跳转微信端前缀this
-    window.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
-    // this.url = 'https://www.qtz360.com/h5/home.html#';     //生产环境
+    // window.url = 'https://test.qtz360.com/h5/home.html#';     //测试环境
+    this.url = 'https://www.qtz360.com/h5/home.html#';     //生产环境
     //跳转微信端首页
-    window.indexUrl = 'https://test.qtz360.com/h5/index.html';    //测试环境
-    // this.indexUrl = 'https://www.qtz360.com/h5/index.html';    //生产环境
+    // window.indexUrl = 'https://test.qtz360.com/h5/index.html';    //测试环境
+    this.indexUrl = 'https://www.qtz360.com/h5/index.html';    //生产环境
     //获取body
     window.body = document.body;
     //返回首页关闭图片
@@ -110,11 +110,11 @@ NativeJs.prototype.isLogin = function () {
         success: function (_data) {
             if (_data.rcd === 'R0001') {
                 result = true;
-                this.isMallAddressSet = _data.isMallAddressSet;
-                this.mallAddress = _data.mallAddress;
+                window.isMallAddressSet = _data.isMallAddressSet;
+                window.mallAddress = _data.mallAddress;
                 //把用户的地址暴露在全局变量中，用于活动开发
-                window.isActivityMallAddressSet = _data.isMallAddressSet;
-                window.activityMallAddress = _data.mallAddress;
+                // window.isActivityMallAddressSet = _data.isMallAddressSet;
+                // window.activityMallAddress = _data.mallAddress;
             } else {
                 result = false;
             }
@@ -133,7 +133,7 @@ NativeJs.prototype.androidIosJs = function (obj) {
                 //收货地址判断
                 case 'androidToAddress':
                     var mallAddress = o.mallAddress ? JSON.stringify(o.mallAddress) : '';
-                    window[o.android][o.android](this.isMallAddressSet, mallAddress);
+                    window[o.android][o.android](isMallAddressSet, mallAddress);
                     break;
                 //页面加载直接分享
                 case 'androidToGetUrl':

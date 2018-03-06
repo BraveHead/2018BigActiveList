@@ -10,6 +10,15 @@ body{
 ul, li{
   list-style: none;
 }
+::-webkit-scrollbar{
+  width: 0.02rem;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 0.10rem;
+  background-color: #f84c7e;
+  height: 0.40rem;
+}
+
 a{
   text-decoration: none;
 }
@@ -109,7 +118,7 @@ $base-color: rgb(109,2,40);
         font-size: $font-size;
         color: rgb(227,76,100);
         text-align: center;
-        padding-top: 0.10rem;
+        padding-top: 0.20rem;
       }
 
     }
@@ -255,6 +264,7 @@ $base-color: rgb(109,2,40);
 .activity-rules{
   width: 100%;
   height: auto;
+  padding-bottom: 0.88rem;
   img{
     width: 3.17rem;
     display: block;
@@ -283,8 +293,11 @@ $base-color: rgb(109,2,40);
   }
 }
 .go-project-list{
+  width: 100%;
   display: block;
-  height: 0.78rem;
+  position: fixed;
+  bottom: 0;
+  height: 0.88rem;
   background-color: rgb(248,76,126);
   color: #ffffff;
   text-align: center;
