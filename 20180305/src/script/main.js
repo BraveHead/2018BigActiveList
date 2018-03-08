@@ -179,7 +179,11 @@ $(document).ready(function () {
                                 currentDom.find('.is-exchange').attr('src','./assets/exchange-over.png');
                             }
                         }else{
-                            $('.alert-contianer').html(`
+                            $('.alert-contianer').css({
+                                'height':'4.62rem',
+                                'background': 'url("./assets/alert-bg.png")',
+                                'background-size':'5.78rem 4.62rem'
+                            }).html(`
                                  <div class="alert-content">
                                     <h3 class="alert-title" style="padding-top: 0.50rem;">兑换失败</h3>
                                     <p class="alert-same-text" style="padding-top: 0.40rem;">${res.rmg}</p>
